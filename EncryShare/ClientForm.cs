@@ -35,8 +35,7 @@ namespace EncryShare
             try
             {
                 
-                tcpClient = new TcpClient();
-                MessageBox.Show(IPAddress.Parse(ipTextBox.Text).ToString());
+                tcpClient = new TcpClient(new IPEndPoint(IPAddress.Any, 60755));
                 tcpClient.Connect(IPAddress.Parse(ipTextBox.Text), 60755);
                 tcpClient.SendTimeout = 4000;
                 nStream = tcpClient.GetStream();
