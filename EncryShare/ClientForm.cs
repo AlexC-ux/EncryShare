@@ -32,12 +32,18 @@ namespace EncryShare
 
         private void Connect()
         {
+
+            
             try
             {
                 
-                tcpClient = new TcpClient(new IPEndPoint(IPAddress.Any, 60755));
+                tcpClient = new TcpClient();
+                tcpClient.SendTimeout = 7000;
+                tcpClient.ReceiveTimeout = 7000;
                 tcpClient.Connect(IPAddress.Parse(ipTextBox.Text), 60755);
-                tcpClient.SendTimeout = 4000;
+
+
+
                 nStream = tcpClient.GetStream();
                 receiveThread = new Thread(ReceiveMessage);
                 receiveThread.Start();
