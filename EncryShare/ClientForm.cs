@@ -38,11 +38,12 @@ namespace EncryShare
             {
                 
                 tcpClient = new TcpClient();
-                tcpClient.SendTimeout = 7000;
-                tcpClient.ReceiveTimeout = 7000;
-                //tcpClient.BeginConnect(IPAddress.Parse(ipTextBox.Text), 60755, null,null).Wait(15000);
+                //tcpClient.SendTimeout = 7000;
+                //tcpClient.ReceiveTimeout = 7000;
+                //await tcpClient.ConnectAsync(ipTextBox.Text, 60755);
+                tcpClient.BeginConnect(IPAddress.Parse(ipTextBox.Text), 60755, null,null);
                 //tcpClient.Connect(IPAddress.Parse(ipTextBox.Text), 60755);
-                while (!tcpClient.BeginConnect(IPAddress.Parse(ipTextBox.Text), 60755, null, null).IsCompleted) { }
+                while (!tcpClient.Connected) { }
 
 
                 nStream = tcpClient.GetStream();
