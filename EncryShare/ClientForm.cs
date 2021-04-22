@@ -38,14 +38,15 @@ namespace EncryShare
             {
                 
                 tcpClient = new TcpClient();
+                
+                chatTextBox.Text += $"Начато подключение к {ipTextBox.Text}";
                 //tcpClient.SendTimeout = 7000;
                 //tcpClient.ReceiveTimeout = 7000;
-                //await tcpClient.ConnectAsync(ipTextBox.Text, 60755);
-                tcpClient.BeginConnect(IPAddress.Parse(ipTextBox.Text), 60755, null,null);
+                //tcpClient.Connect(ipTextBox.Text.ToString(), 60755);
+                //tcpClient.ConnectAsync(ipTextBox.Text, 60755).Wait(30000);
+                tcpClient.BeginConnect(ipTextBox.Text.ToString(), 60755, null, null);
                 //tcpClient.Connect(IPAddress.Parse(ipTextBox.Text), 60755);
-                while (!tcpClient.Connected) { }
-
-
+                while (!tcpClient.Connected) { continue; }
                 nStream = tcpClient.GetStream();
                 receiveThread = new Thread(ReceiveMessage);
                 receiveThread.Start();
@@ -151,7 +152,8 @@ namespace EncryShare
 
         private void connectButton_Click(object sender, EventArgs e)
         {
-            Connect();
+            Thread connectThread = new Thread(Connect);
+            connectThread.Start();
         }
 
         private void ClientForm_Load(object sender, EventArgs e)

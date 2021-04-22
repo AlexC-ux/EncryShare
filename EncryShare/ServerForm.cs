@@ -42,7 +42,7 @@ namespace EncryShare
         {
             // Устанавливаем для сокета локальную конечную точку
             tcpListener = new TcpListener(IPAddress.Any, 60755);
-            tcpListener.Start();
+            tcpListener.Start(10);
             
 
             try
