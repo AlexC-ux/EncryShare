@@ -43,7 +43,7 @@ namespace EncryShare
             // Устанавливаем для сокета локальную конечную точку
             tcpListener = new TcpListener(IPAddress.Any, 60755);
             tcpListener.Start(10);
-            
+            chatTextBox.Text += $"Начато ожидание {IPAddress.Parse(ipTextBox.Text)}\n";
 
             try
             {
@@ -158,7 +158,7 @@ namespace EncryShare
                     while (nStream.DataAvailable);
 
                     string message = builder.ToString();
-                    chatTextBox.Text += $"{DateTime.Now.ToShortTimeString()}:{tcpClient.Client.RemoteEndPoint}:\n" + message + "\n";
+                    chatTextBox.Text += $"{tcpClient.Client.RemoteEndPoint}:" + message + "\n";
 
                 }
                 catch (Exception ex)

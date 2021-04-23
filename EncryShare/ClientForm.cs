@@ -39,19 +39,20 @@ namespace EncryShare
                 
                 tcpClient = new TcpClient();
                 
-                chatTextBox.Text += $"Начато подключение к {ipTextBox.Text}";
+                chatTextBox.Text += $"Начато подключение к {IPAddress.Parse(ipTextBox.Text)}\n";
                 //tcpClient.SendTimeout = 7000;
                 //tcpClient.ReceiveTimeout = 7000;
 
                 //tcpClient.Connect(ipTextBox.Text.ToString(), 60755);
                 //tcpClient.ConnectAsync(ipTextBox.Text, 60755).Wait(30000);
-                //tcpClient.BeginConnect(ipTextBox.Text.ToString(), 60755, null, null);
-                tcpClient.Connect(Dns.GetHostEntry(ipTextBox.Text).AddressList[0], 60755);
+                tcpClient.Connect(IPAddress.Parse(ipTextBox.Text), 60755);
+                
+                //tcpClient.Connect(Dns.GetHostEntry(ipTextBox.Text.ToString()).AddressList[0], 60755);
                 while (!tcpClient.Connected) { continue; }
                 nStream = tcpClient.GetStream();
                 receiveThread = new Thread(ReceiveMessage);
                 receiveThread.Start();
-                chatTextBox.Text+=("Установлено соединение с " + tcpClient.Client.RemoteEndPoint.ToString()+"\n");
+                chatTextBox.Text=("Установлено соединение с " + tcpClient.Client.RemoteEndPoint.ToString()+"\n");
                 sendButton.Enabled = true;
                 messageTextBox.Enabled = true;
                 receiveFileListenerThread = new Thread(WaitFileConnection);
@@ -141,7 +142,7 @@ namespace EncryShare
                     while (nStream.DataAvailable);
 
                     string message = builder.ToString();
-                    chatTextBox.Text += $"{DateTime.Now.ToShortTimeString()}:{tcpClient.Client.RemoteEndPoint}:\n" + message+"\n";
+                    chatTextBox.Text += $"{tcpClient.Client.RemoteEndPoint}:" + message+"\n";
 
                 }
                 catch (Exception ex)
