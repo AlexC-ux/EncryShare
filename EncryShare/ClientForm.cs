@@ -42,10 +42,11 @@ namespace EncryShare
                 chatTextBox.Text += $"Начато подключение к {ipTextBox.Text}";
                 //tcpClient.SendTimeout = 7000;
                 //tcpClient.ReceiveTimeout = 7000;
+
                 //tcpClient.Connect(ipTextBox.Text.ToString(), 60755);
                 //tcpClient.ConnectAsync(ipTextBox.Text, 60755).Wait(30000);
-                tcpClient.BeginConnect(ipTextBox.Text.ToString(), 60755, null, null);
-                //tcpClient.Connect(IPAddress.Parse(ipTextBox.Text), 60755);
+                //tcpClient.BeginConnect(ipTextBox.Text.ToString(), 60755, null, null);
+                tcpClient.Connect(Dns.GetHostEntry(ipTextBox.Text).AddressList[0], 60755);
                 while (!tcpClient.Connected) { continue; }
                 nStream = tcpClient.GetStream();
                 receiveThread = new Thread(ReceiveMessage);
