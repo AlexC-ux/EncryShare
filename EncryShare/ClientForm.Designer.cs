@@ -41,10 +41,10 @@ namespace EncryShare
             // 
             // connectButton
             // 
-            this.connectButton.Location = new System.Drawing.Point(14, 49);
-            this.connectButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.connectButton.Location = new System.Drawing.Point(12, 36);
+            this.connectButton.Margin = new System.Windows.Forms.Padding(1);
             this.connectButton.Name = "connectButton";
-            this.connectButton.Size = new System.Drawing.Size(86, 26);
+            this.connectButton.Size = new System.Drawing.Size(75, 21);
             this.connectButton.TabIndex = 11;
             this.connectButton.Text = "Connect";
             this.connectButton.UseVisualStyleBackColor = true;
@@ -52,20 +52,18 @@ namespace EncryShare
             // 
             // ipTextBox
             // 
-            this.ipTextBox.Location = new System.Drawing.Point(119, 48);
-            this.ipTextBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.ipTextBox.Location = new System.Drawing.Point(104, 36);
             this.ipTextBox.Name = "ipTextBox";
-            this.ipTextBox.Size = new System.Drawing.Size(106, 27);
+            this.ipTextBox.Size = new System.Drawing.Size(93, 23);
             this.ipTextBox.TabIndex = 9;
             this.ipTextBox.Text = "127.0.0.1";
             // 
             // chatTextBox
             // 
-            this.chatTextBox.Location = new System.Drawing.Point(14, 88);
-            this.chatTextBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.chatTextBox.Location = new System.Drawing.Point(12, 66);
             this.chatTextBox.Name = "chatTextBox";
             this.chatTextBox.ReadOnly = true;
-            this.chatTextBox.Size = new System.Drawing.Size(395, 596);
+            this.chatTextBox.Size = new System.Drawing.Size(346, 448);
             this.chatTextBox.TabIndex = 8;
             this.chatTextBox.Text = "";
             this.chatTextBox.TextChanged += new System.EventHandler(this.chatTextBox_TextChanged);
@@ -73,28 +71,26 @@ namespace EncryShare
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(10, 13);
+            this.label1.Location = new System.Drawing.Point(15, 13);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(90, 20);
+            this.label1.Size = new System.Drawing.Size(72, 15);
             this.label1.TabIndex = 6;
             this.label1.Text = "Client mode";
             // 
             // messageTextBox
             // 
-            this.messageTextBox.Location = new System.Drawing.Point(12, 692);
-            this.messageTextBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.messageTextBox.Location = new System.Drawing.Point(10, 519);
             this.messageTextBox.Name = "messageTextBox";
-            this.messageTextBox.Size = new System.Drawing.Size(397, 57);
+            this.messageTextBox.Size = new System.Drawing.Size(348, 44);
             this.messageTextBox.TabIndex = 12;
             this.messageTextBox.Text = "";
             this.messageTextBox.TextChanged += new System.EventHandler(this.messageTextBox_TextChanged);
             // 
             // sendButton
             // 
-            this.sendButton.Location = new System.Drawing.Point(306, 757);
-            this.sendButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.sendButton.Location = new System.Drawing.Point(268, 568);
             this.sendButton.Name = "sendButton";
-            this.sendButton.Size = new System.Drawing.Size(103, 31);
+            this.sendButton.Size = new System.Drawing.Size(90, 23);
             this.sendButton.TabIndex = 13;
             this.sendButton.Text = "SEND";
             this.sendButton.UseVisualStyleBackColor = true;
@@ -102,21 +98,18 @@ namespace EncryShare
             // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(119, 13);
-            this.label2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.label2.Location = new System.Drawing.Point(104, 10);
             this.label2.Name = "label2";
             this.label2.ReadOnly = true;
-            this.label2.Size = new System.Drawing.Size(106, 27);
+            this.label2.Size = new System.Drawing.Size(93, 23);
             this.label2.TabIndex = 17;
             this.label2.Text = "your ip";
-            
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(14, 757);
-            this.button1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.button1.Location = new System.Drawing.Point(12, 568);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(102, 31);
+            this.button1.Size = new System.Drawing.Size(89, 23);
             this.button1.TabIndex = 18;
             this.button1.Text = "Send file";
             this.button1.UseVisualStyleBackColor = true;
@@ -124,9 +117,9 @@ namespace EncryShare
             // 
             // ClientForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(422, 793);
+            this.ClientSize = new System.Drawing.Size(371, 597);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.sendButton);
@@ -135,7 +128,6 @@ namespace EncryShare
             this.Controls.Add(this.ipTextBox);
             this.Controls.Add(this.chatTextBox);
             this.Controls.Add(this.label1);
-            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "ClientForm";
             this.Text = "ClientForm";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ClientForm_FormClosed);
