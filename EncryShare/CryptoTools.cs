@@ -9,10 +9,10 @@ namespace CryptoTools
     {
         public UnicodeEncoding ByteConverter = new UnicodeEncoding();
         public static RSACryptoServiceProvider RSA = new RSACryptoServiceProvider(2048);
-        public RSAParameters RSAParam = RSA.ExportParameters(false);
-        Aes myAes = Aes.Create();
+        public static RSAParameters RSAParam = RSA.ExportParameters(false);
+        static Aes myAes = Aes.Create();
 
-        public static byte [] GetRSAModulus()
+        public static byte[] GetRSAModulus()
         {
             return RSAParam.Modulus;
         }
@@ -20,18 +20,26 @@ namespace CryptoTools
         {
             return RSAParam.Exponent;
         }
-        public static void SetRSAOpenKeys(byte [] Modulus, byte [] Exponent)
+        public static void SetRSAOpenKeys(byte[] Modulus, byte[] Exponent)
         {
             RSAParam.Modulus = Modulus;
             RSAParam.Exponent = Exponent;
         }
-        public static byte [] EncryptRSA(byte [] DataToEncrypt)
+        public static byte[] EncryptRSA(byte[] DataToEncrypt)
         {
-            return RSA.Encrypt(DataToEncrypt, true)
-        }
+            return RSA.Encrypt(DataToEncrypt, true);
+        } 
         public static byte [] DecryptRSA(byte [] DataToDecrypt)
         {
-            return RSA.Decrypt(DataToDecrypt, true)
+            return RSA.Decrypt(DataToDecrypt, true);
+        }
+        public static byte[] EncryptAESKey()
+        {
+            return RSA.Encrypt(myAes.Key, true);
+        }
+        public static byte[] EncryptAESIV()
+        {
+            return RSA.Encrypt(myAes.IV, true);
         }
         public static byte[] EncryptString(string textToEncrypt, byte[] AESKey, byte[] AESIV)
         {
