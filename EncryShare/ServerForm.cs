@@ -80,9 +80,13 @@ namespace EncryShare
                         
                         receiveThread = new Thread(ReceiveMessage);
                         receiveThread.Start();
+                        
                         nStream.Write(rsaExponent, 0, rsaExponent.Length);
-                        nStream.Write(rsaModulus, 0, rsaModulus.Length);
+                        
                         chatTextBox.Text = ("Установлено соединение с " + tcpClient.Client.RemoteEndPoint.ToString() + "\n");
+
+                        nStream.Write(rsaModulus, 0, rsaModulus.Length);
+
                         button1.Enabled = true;
                         sendButton.Enabled = true;
                         messageTextBox.Enabled = true;
