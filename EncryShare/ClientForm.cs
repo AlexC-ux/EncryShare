@@ -14,7 +14,7 @@ namespace EncryShare
 {
     public partial class ClientForm : Form
     {
-
+        
         SoundPlayer notifySound = new SoundPlayer(Environment.GetFolderPath(Environment.SpecialFolder.Windows)+@"\Media\Speech On.wav");
         bool receive = true;
         Thread receiveFilesThread;
@@ -42,7 +42,7 @@ namespace EncryShare
                 tcpClient = new TcpClient();
                 
                 chatTextBox.Text += $"Начато подключение к {IPAddress.Parse(ipTextBox.Text)}\n";
-                notifySound.Play();
+                
                 //tcpClient.SendTimeout = 7000;
                 //tcpClient.ReceiveTimeout = 7000;
 
@@ -56,7 +56,7 @@ namespace EncryShare
                 receiveThread = new Thread(ReceiveMessage);
                 receiveThread.Start();
                 chatTextBox.Text=("Установлено соединение с " + tcpClient.Client.RemoteEndPoint.ToString()+"\n");
-                notifySound.Play();
+                
                 button1.Enabled = true;
                 sendButton.Enabled = true;
                 messageTextBox.Enabled = true;
@@ -86,7 +86,7 @@ namespace EncryShare
                         receiveFilesThread = new Thread(ReceiveFileBytes);
                         receiveFilesThread.Start();
                         chatTextBox.Text += "!READY TO RECEIVE FILE!\n";
-                        notifySound.Play();
+                        
                     }
                 }
             }
@@ -116,7 +116,7 @@ namespace EncryShare
                         fs.Close();
                         chatTextBox.Text += "!FILE RECEIVED!\n(saved to downloads)\n";
                         SendMessage("!FILES TRANSFERED!");
-                        notifySound.Play();
+                        
                     }
 
 
@@ -150,7 +150,7 @@ namespace EncryShare
 
                     string message = builder.ToString();
                     chatTextBox.AppendText($"\nany: " + message+"\n");
-                    notifySound.Play();
+                    
 
                 }
                 catch (Exception ex)
@@ -180,7 +180,7 @@ namespace EncryShare
             try
             {
                 SendMessage("CLIENT DISCONNECTING");
-                notifySound.Play();
+                
                 receiveFileListenerThread.Abort();
                 tcpFileClient.Client.Shutdown(SocketShutdown.Both);
                 tcpFileClient.Close();
@@ -213,7 +213,7 @@ namespace EncryShare
         {
             SendMessage(messageTextBox.Text);
             chatTextBox.AppendText($"\nme: {messageTextBox.Text}\n");
-            notifySound.Play();
+            
             messageTextBox.Text = "";
 
         }
@@ -248,6 +248,7 @@ namespace EncryShare
         {
             chatTextBox.SelectionStart = chatTextBox.Text.Length;
             chatTextBox.ScrollToCaret();
+            if (checkBox1.Checked) { notifySound.Play(); }
         }
 
         private void button1_KeyUp(object sender, KeyEventArgs e)
@@ -262,6 +263,11 @@ namespace EncryShare
                 sendButton.PerformClick();
                 messageTextBox.Focus();
             }
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            
         }
     }
 }
