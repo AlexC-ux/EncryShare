@@ -141,7 +141,7 @@ namespace EncryShare
             {
                 try
                 {
-                    byte[] data = new byte[512]; // буфер для получаемых данных
+                    byte[] data = new byte[5000]; // буфер для получаемых данных
                     StringBuilder builder = new StringBuilder();
                     int bytes = 0;
                     do
@@ -168,12 +168,15 @@ namespace EncryShare
                             aesEncryptedKey = CryptoTools.CryptoTools.EncryptAESKey();
                             aesEncryptevIV = CryptoTools.CryptoTools.EncryptAESIV();
 
+                            nStream.Write(aesEncryptedKey, 0, aesEncryptedKey.Length);
+                            nStream.Write(aesEncryptevIV, 0, aesEncryptevIV.Length);
                         }
-                        
+
                     }
+                    else { chatTextBox.AppendText($"\nany: " + message + "\n"); }
 
 
-                    chatTextBox.AppendText($"\nany: " + message+"\n");
+                    
                     
 
                 }

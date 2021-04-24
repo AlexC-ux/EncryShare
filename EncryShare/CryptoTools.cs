@@ -8,8 +8,8 @@ namespace CryptoTools
     public class CryptoTools
     {
         public UnicodeEncoding ByteConverter = new UnicodeEncoding();
-        public static RSACryptoServiceProvider RSA = new RSACryptoServiceProvider(2048);
-        public static RSAParameters RSAParam = RSA.ExportParameters(false);
+        public static RSACryptoServiceProvider RSAcp = new RSACryptoServiceProvider(2048);
+        public static RSAParameters RSAParam = RSAcp.ExportParameters(false);
         static Aes myAes = Aes.Create();
 
         public static byte[] GetRSAModulus()
@@ -24,27 +24,29 @@ namespace CryptoTools
         {
             RSAParam.Modulus = Modulus;
             RSAParam.Exponent = Exponent;
+            RSAcp.ImportParameters(RSAParam); 
         }
         public static void SetAESKeys(byte [] EncryptedKey, byte [] EncryptedIV)
         {
-            myAes.Key = RSA.Decrypt(EncryptedKey, true);
-            myAes.IV = RSA.Decrypt(EncryptedIV, true);
+            myAes.Key = RSAcp.Decrypt(EncryptedKey, true);
+            myAes.IV = RSAcp.Decrypt(EncryptedIV, true);
+            
         }
         public static byte[] EncryptRSA(byte[] DataToEncrypt)
         {
-            return RSA.Encrypt(DataToEncrypt, true);
+            return RSAcp.Encrypt(DataToEncrypt, true);
         } 
         public static byte [] DecryptRSA(byte [] DataToDecrypt)
         {
-            return RSA.Decrypt(DataToDecrypt, true);
+            return RSAcp.Decrypt(DataToDecrypt, true);
         }
         public static byte[] EncryptAESKey()
         {
-            return RSA.Encrypt(myAes.Key, true);
+            return RSAcp.Encrypt(myAes.Key, true);
         }
         public static byte[] EncryptAESIV()
         {
-            return RSA.Encrypt(myAes.IV, true);
+            return RSAcp.Encrypt(myAes.IV, true);
         }
         public static byte[] EncryptString(string textToEncrypt, byte[] AESKey, byte[] AESIV)
         {

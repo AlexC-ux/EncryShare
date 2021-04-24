@@ -76,12 +76,12 @@ namespace EncryShare
                         tcpListener.Stop();
                         listen = false;
                         nStream = tcpClient.GetStream();
-                        nStream.Write(rsaExponent,0,rsaExponent.Length);
-                        nStream.Write(rsaModulus,0,rsaModulus.Length);
+                        
                         receiveThread = new Thread(ReceiveMessage);
                         receiveThread.Start();
+                        nStream.Write(rsaExponent, 0, rsaExponent.Length);
+                        nStream.Write(rsaModulus, 0, rsaModulus.Length);
                         chatTextBox.Text = ("Установлено соединение с " + tcpClient.Client.RemoteEndPoint.ToString() + "\n");
-                        
                         button1.Enabled = true;
                         sendButton.Enabled = true;
                         messageTextBox.Enabled = true;
@@ -162,7 +162,7 @@ namespace EncryShare
             {
                 try
                 {
-                    byte[] data = new byte[512]; // буфер для получаемых данных
+                    byte[] data = new byte[5000]; // буфер для получаемых данных
                     StringBuilder builder = new StringBuilder();
                     int bytes = 0;
                     do
@@ -185,11 +185,13 @@ namespace EncryShare
                         {
                             aesEncryptedIV = data;
                             CryptoTools.CryptoTools.SetAESKeys(aesEncryptedKey,aesEncryptedIV);
-
+                            SendMessage("Handshake completed!");
+                            chatTextBox.AppendText("\nHandshake completed!\n");
                         }
                     }
+                    else { chatTextBox.AppendText("\nany: " + message + "\n"); }
 
-                    chatTextBox.AppendText("\nany: " + message + "\n");
+                    
                     
 
                 }
