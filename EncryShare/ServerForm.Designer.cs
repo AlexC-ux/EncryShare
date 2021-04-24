@@ -93,6 +93,7 @@ namespace EncryShare
             this.messageTextBox.Size = new System.Drawing.Size(348, 44);
             this.messageTextBox.TabIndex = 14;
             this.messageTextBox.Text = "";
+            this.messageTextBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.messageTextBox_KeyUp);
             // 
             // label2
             // 

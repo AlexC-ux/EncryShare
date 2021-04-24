@@ -85,6 +85,7 @@ namespace EncryShare
             this.messageTextBox.TabIndex = 12;
             this.messageTextBox.Text = "";
             this.messageTextBox.TextChanged += new System.EventHandler(this.messageTextBox_TextChanged);
+            this.messageTextBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.messageTextBox_KeyUp);
             // 
             // sendButton
             // 

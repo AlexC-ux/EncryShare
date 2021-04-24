@@ -252,9 +252,14 @@ namespace EncryShare
 
         private void button1_KeyUp(object sender, KeyEventArgs e)
         {
+            
+        }
+
+        private void messageTextBox_KeyUp(object sender, KeyEventArgs e)
+        {
             if (e.KeyCode == Keys.Enter && messageTextBox.Enabled)
             {
-                button1.PerformClick();
+                sendButton.PerformClick();
                 messageTextBox.Focus();
             }
         }

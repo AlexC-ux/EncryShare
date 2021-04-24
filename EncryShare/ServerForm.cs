@@ -265,5 +265,14 @@ namespace EncryShare
             }
             
         }
+
+        private void messageTextBox_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter && messageTextBox.Enabled)
+            {
+                sendButton.PerformClick();
+                messageTextBox.Focus();
+            }
+        }
     }
 }
