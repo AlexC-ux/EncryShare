@@ -109,7 +109,7 @@ namespace EncryShare
             this.label2.Size = new System.Drawing.Size(106, 27);
             this.label2.TabIndex = 17;
             this.label2.Text = "your ip";
-            this.label2.TextChanged += new System.EventHandler(this.label2_TextChanged);
+            
             // 
             // button1
             // 
