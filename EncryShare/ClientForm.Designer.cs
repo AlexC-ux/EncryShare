@@ -65,6 +65,7 @@ namespace EncryShare
             this.chatTextBox.Size = new System.Drawing.Size(346, 277);
             this.chatTextBox.TabIndex = 8;
             this.chatTextBox.Text = "";
+            this.chatTextBox.TextChanged += new System.EventHandler(this.chatTextBox_TextChanged);
             // 
             // label1
             // 

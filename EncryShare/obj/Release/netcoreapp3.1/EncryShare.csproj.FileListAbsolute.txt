@@ -14,3 +14,4 @@ C:\Users\AlexC-ux\source\repos\EncryShare\EncryShare\obj\Release\netcoreapp3.1\E
 C:\Users\AlexC-ux\source\repos\EncryShare\EncryShare\obj\Release\netcoreapp3.1\EncryShare.dll
 C:\Users\AlexC-ux\source\repos\EncryShare\EncryShare\obj\Release\netcoreapp3.1\EncryShare.pdb
 C:\Users\AlexC-ux\source\repos\EncryShare\EncryShare\obj\Release\netcoreapp3.1\EncryShare.genruntimeconfig.cache
+C:\Users\AlexC-ux\source\repos\EncryShare\EncryShare\obj\Release\netcoreapp3.1\EncryShare.csprojAssemblyReference.cache

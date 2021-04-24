@@ -12,7 +12,7 @@ namespace EncryShare
 {
     public partial class ServerForm : Form
     {
-        SaveFileDialog saveFileDialog = new SaveFileDialog();
+        SoundPlayer notifySound = new SoundPlayer(Environment.GetFolderPath(Environment.SpecialFolder.Windows) + @"\Media\Speech On.wav");
         OpenFileDialog getFileDialog = new OpenFileDialog();
         bool receive = true;
         Thread receiveFilesThread;
@@ -36,39 +36,40 @@ namespace EncryShare
             label2.Text = new WebClient().DownloadString("http://icanhazip.com/");
             sendButton.Enabled = false;
             messageTextBox.Enabled = false;
-            
+
         }
 
         private void StartListening()
         {
-            
+
             // Устанавливаем для сокета локальную конечную точку
             tcpListener = new TcpListener(IPAddress.Any, 60755);
             tcpListener.Start(10);
             chatTextBox.Text = $"Начато ожидание {IPAddress.Parse(ipTextBox.Text)}\n";
-            SystemSounds.Beep.Play();
+            notifySound.Play();
+
             try
             {
-                
-                
+
+
                 // Начинаем слушать соединения
                 while (listen)
                 {
                     tcpClient = tcpListener.AcceptTcpClient();
                     if (tcpClient.Client.RemoteEndPoint.ToString().Split(':')[0] != ipTextBox.Text)
                     {
-                        MessageBox.Show("К вам желал подключиться незнакомый клиент\n"+ tcpClient.Client.RemoteEndPoint.ToString());
+                        MessageBox.Show("К вам желал подключиться незнакомый клиент\n" + tcpClient.Client.RemoteEndPoint.ToString());
                     }
                     else
                     {
-                        
+
                         tcpListener.Stop();
                         listen = false;
                         nStream = tcpClient.GetStream();
                         receiveThread = new Thread(ReceiveMessage);
                         receiveThread.Start();
                         chatTextBox.Text = ("Установлено соединение с " + tcpClient.Client.RemoteEndPoint.ToString() + "\n");
-                        SystemSounds.Beep.Play();
+                        notifySound.Play();
                         sendButton.Enabled = true;
                         messageTextBox.Enabled = true;
                         receiveFileListenerThread = new Thread(WaitFileConnection);
@@ -99,11 +100,11 @@ namespace EncryShare
                         receiveFilesThread = new Thread(ReceiveFileBytes);
                         receiveFilesThread.Start();
                         chatTextBox.Text += "!READY TO RECEIVE FILE!\n";
-                        SystemSounds.Beep.Play();
+                        notifySound.Play();
                     }
                 }
             }
-            
+
         }
         private void ReceiveFileBytes()
         {
@@ -129,7 +130,7 @@ namespace EncryShare
                         fs.Close();
                         chatTextBox.Text += "!FILE RECEIVED!\n(saved to downloads)\n";
                         SendMessage("!FILES TRANSFERED!");
-                        SystemSounds.Beep.Play();
+                        notifySound.Play();
                     }
 
 
@@ -163,9 +164,9 @@ namespace EncryShare
                     while (nStream.DataAvailable);
 
                     string message = builder.ToString();
-                    
-                    chatTextBox.AppendText($"\nany: " + message + "\n");
-                    SystemSounds.Beep.Play();
+
+                    chatTextBox.AppendText("\nany: " + message + "\n");
+                    notifySound.Play();
 
                 }
                 catch (Exception ex)
@@ -188,8 +189,8 @@ namespace EncryShare
             try
             {
                 SendMessage("SERVER DISCONNECTING");
-                SystemSounds.Beep.Play();
-                if (receiveThread!=null)
+                notifySound.Play();
+                if (receiveThread != null)
                 {
                     receiveThread.Abort();
                 }
@@ -211,7 +212,7 @@ namespace EncryShare
             {
                 Form1.CloseForm();
             }
-            
+
         }
         private void SendMessage(string message)
         {
@@ -222,7 +223,7 @@ namespace EncryShare
         {
             SendMessage(messageTextBox.Text);
             chatTextBox.AppendText($"\nme: {messageTextBox.Text}\n");
-            SystemSounds.Beep.Play();
+            notifySound.Play();
             messageTextBox.Text = "";
         }
 
@@ -245,6 +246,12 @@ namespace EncryShare
             {
                 MessageBox.Show(ex.ToString());
             }
+        }
+
+        private void chatTextBox_TextChanged(object sender, EventArgs e)
+        {
+            chatTextBox.SelectionStart = chatTextBox.Text.Length;
+            chatTextBox.ScrollToCaret();
         }
     }
 }
