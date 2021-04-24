@@ -5,15 +5,34 @@ using System.Text;
 
 namespace CryptoTools
 {
-    
-    public class CryptEncryShare
+    public class CryptoTools
     {
-        public static RSACryptoServiceProvider RSACryptoProvider = new RSACryptoServiceProvider(2048);
-        public static RSAParameters RSAParam = RSACryptoProvider.ExportParameters(false);
         public UnicodeEncoding ByteConverter = new UnicodeEncoding();
+        public static RSACryptoServiceProvider RSA = new RSACryptoServiceProvider(2048);
+        public RSAParameters RSAParam = RSA.ExportParameters(false);
+        Aes myAes = Aes.Create();
 
-
-
+        public static byte [] GetRSAModulus()
+        {
+            return RSAParam.Modulus;
+        }
+        public static byte[] GetRSAExponent()
+        {
+            return RSAParam.Exponent;
+        }
+        public static void SetRSAOpenKeys(byte [] Modulus, byte [] Exponent)
+        {
+            RSAParam.Modulus = Modulus;
+            RSAParam.Exponent = Exponent;
+        }
+        public static byte [] EncryptRSA(byte [] DataToEncrypt)
+        {
+            return RSA.Encrypt(DataToEncrypt, true)
+        }
+        public static byte [] DecryptRSA(byte [] DataToDecrypt)
+        {
+            return RSA.Decrypt(DataToDecrypt, true)
+        }
         public static byte[] EncryptString(string textToEncrypt, byte[] AESKey, byte[] AESIV)
         {
             byte[] encrypted;
