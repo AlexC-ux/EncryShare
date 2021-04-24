@@ -242,5 +242,10 @@ namespace EncryShare
                 MessageBox.Show(ex.ToString());
             }
         }
+
+        private void label2_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

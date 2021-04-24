@@ -1,21 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\AlexC-ux\\source\\repos\\EncryShare\\EncryShare\\EncryShare.csproj": {}
+    "D:\\Hobby\\program\\EncryShare\\EncryShare\\EncryShare.csproj": {}
   },
   "projects": {
-    "C:\\Users\\AlexC-ux\\source\\repos\\EncryShare\\EncryShare\\EncryShare.csproj": {
+    "D:\\Hobby\\program\\EncryShare\\EncryShare\\EncryShare.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\AlexC-ux\\source\\repos\\EncryShare\\EncryShare\\EncryShare.csproj",
+        "projectUniqueName": "D:\\Hobby\\program\\EncryShare\\EncryShare\\EncryShare.csproj",
         "projectName": "EncryShare",
-        "projectPath": "C:\\Users\\AlexC-ux\\source\\repos\\EncryShare\\EncryShare\\EncryShare.csproj",
-        "packagesPath": "C:\\Users\\AlexC-ux\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\AlexC-ux\\source\\repos\\EncryShare\\EncryShare\\obj\\",
+        "projectPath": "D:\\Hobby\\program\\EncryShare\\EncryShare\\EncryShare.csproj",
+        "packagesPath": "C:\\Users\\Vlad\\.nuget\\packages\\",
+        "outputPath": "D:\\Hobby\\program\\EncryShare\\EncryShare\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "D:\\Microsoft\\Xamarin\\NuGet\\"
+        ],
         "configFilePaths": [
-          "C:\\Users\\AlexC-ux\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\Vlad\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
@@ -57,7 +61,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.201\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.102\\RuntimeIdentifierGraph.json"
         }
       }
     }
