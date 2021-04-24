@@ -10,6 +10,7 @@ namespace CryptoTools
         public UnicodeEncoding ByteConverter = new UnicodeEncoding();
         public static RSACryptoServiceProvider RSAcp = new RSACryptoServiceProvider(2048);
         public static RSAParameters RSAParam = RSAcp.ExportParameters(false);
+        
         static Aes myAes = Aes.Create();
 
         public static byte[] GetRSAModulus()
@@ -22,6 +23,7 @@ namespace CryptoTools
         }
         public static void SetRSAOpenKeys(byte[] Modulus, byte[] Exponent)
         {
+            
             RSAParam.Modulus = Modulus;
             RSAParam.Exponent = Exponent;
             RSAcp.ImportParameters(RSAParam); 

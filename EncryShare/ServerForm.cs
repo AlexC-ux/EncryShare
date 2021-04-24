@@ -41,6 +41,7 @@ namespace EncryShare
 
         private void ServerForm_Load(object sender, EventArgs e)
         {
+            
             label2.Text = new WebClient().DownloadString("http://icanhazip.com/");
             sendButton.Enabled = false;
             messageTextBox.Enabled = false;
@@ -162,7 +163,7 @@ namespace EncryShare
             {
                 try
                 {
-                    byte[] data = new byte[5000]; // буфер для получаемых данных
+                    byte[] data = new byte[2048]; // буфер для получаемых данных
                     StringBuilder builder = new StringBuilder();
                     int bytes = 0;
                     do

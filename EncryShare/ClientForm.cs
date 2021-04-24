@@ -141,7 +141,7 @@ namespace EncryShare
             {
                 try
                 {
-                    byte[] data = new byte[5000]; // буфер для получаемых данных
+                    byte[] data = new byte[2048]; // буфер для получаемых данных
                     StringBuilder builder = new StringBuilder();
                     int bytes = 0;
                     do
@@ -164,6 +164,7 @@ namespace EncryShare
                             rsaExponentReceived = data;
                         }
                         else { rsaModulusReceived = data;
+                            
                             CryptoTools.CryptoTools.SetRSAOpenKeys(rsaModulusReceived,rsaExponentReceived);
                             aesEncryptedKey = CryptoTools.CryptoTools.EncryptAESKey();
                             aesEncryptevIV = CryptoTools.CryptoTools.EncryptAESIV();
