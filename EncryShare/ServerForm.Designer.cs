@@ -32,7 +32,6 @@ namespace EncryShare
             this.label1 = new System.Windows.Forms.Label();
             this.chatTextBox = new System.Windows.Forms.RichTextBox();
             this.ipTextBox = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
             this.listenButton = new System.Windows.Forms.Button();
             this.sendButton = new System.Windows.Forms.Button();
             this.messageTextBox = new System.Windows.Forms.RichTextBox();
@@ -43,44 +42,38 @@ namespace EncryShare
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 9);
+            this.label1.Location = new System.Drawing.Point(10, 13);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(73, 15);
+            this.label1.Size = new System.Drawing.Size(93, 20);
             this.label1.TabIndex = 0;
             this.label1.Text = "Server mode";
             // 
             // chatTextBox
             // 
-            this.chatTextBox.Location = new System.Drawing.Point(12, 44);
+            this.chatTextBox.Location = new System.Drawing.Point(14, 88);
+            this.chatTextBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.chatTextBox.Name = "chatTextBox";
             this.chatTextBox.ReadOnly = true;
-            this.chatTextBox.Size = new System.Drawing.Size(346, 277);
+            this.chatTextBox.Size = new System.Drawing.Size(395, 596);
             this.chatTextBox.TabIndex = 2;
             this.chatTextBox.Text = "";
             this.chatTextBox.TextChanged += new System.EventHandler(this.chatTextBox_TextChanged);
             // 
             // ipTextBox
             // 
-            this.ipTextBox.Location = new System.Drawing.Point(453, 44);
+            this.ipTextBox.Location = new System.Drawing.Point(119, 48);
+            this.ipTextBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.ipTextBox.Name = "ipTextBox";
-            this.ipTextBox.Size = new System.Drawing.Size(93, 23);
+            this.ipTextBox.Size = new System.Drawing.Size(106, 27);
             this.ipTextBox.TabIndex = 3;
             this.ipTextBox.Text = "127.0.0.1";
             // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(398, 47);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(49, 15);
-            this.label3.TabIndex = 4;
-            this.label3.Text = "Client is";
-            // 
             // listenButton
             // 
-            this.listenButton.Location = new System.Drawing.Point(372, 9);
+            this.listenButton.Location = new System.Drawing.Point(14, 49);
+            this.listenButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.listenButton.Name = "listenButton";
-            this.listenButton.Size = new System.Drawing.Size(75, 23);
+            this.listenButton.Size = new System.Drawing.Size(86, 26);
             this.listenButton.TabIndex = 5;
             this.listenButton.Text = "listen";
             this.listenButton.UseVisualStyleBackColor = true;
@@ -88,9 +81,10 @@ namespace EncryShare
             // 
             // sendButton
             // 
-            this.sendButton.Location = new System.Drawing.Point(372, 213);
+            this.sendButton.Location = new System.Drawing.Point(306, 757);
+            this.sendButton.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.sendButton.Name = "sendButton";
-            this.sendButton.Size = new System.Drawing.Size(356, 52);
+            this.sendButton.Size = new System.Drawing.Size(103, 31);
             this.sendButton.TabIndex = 15;
             this.sendButton.Text = "SEND";
             this.sendButton.UseVisualStyleBackColor = true;
@@ -98,26 +92,29 @@ namespace EncryShare
             // 
             // messageTextBox
             // 
-            this.messageTextBox.Location = new System.Drawing.Point(372, 97);
+            this.messageTextBox.Location = new System.Drawing.Point(12, 692);
+            this.messageTextBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.messageTextBox.Name = "messageTextBox";
-            this.messageTextBox.Size = new System.Drawing.Size(356, 110);
+            this.messageTextBox.Size = new System.Drawing.Size(397, 57);
             this.messageTextBox.TabIndex = 14;
             this.messageTextBox.Text = "";
             // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(453, 9);
+            this.label2.Location = new System.Drawing.Point(119, 13);
+            this.label2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.label2.Name = "label2";
             this.label2.ReadOnly = true;
-            this.label2.Size = new System.Drawing.Size(93, 23);
+            this.label2.Size = new System.Drawing.Size(106, 27);
             this.label2.TabIndex = 16;
             this.label2.Text = "your ip";
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(372, 285);
+            this.button1.Location = new System.Drawing.Point(14, 757);
+            this.button1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.Size = new System.Drawing.Size(102, 31);
             this.button1.TabIndex = 19;
             this.button1.Text = "Send file";
             this.button1.UseVisualStyleBackColor = true;
@@ -125,18 +122,18 @@ namespace EncryShare
             // 
             // ServerForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(763, 333);
+            this.ClientSize = new System.Drawing.Size(422, 793);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.sendButton);
             this.Controls.Add(this.messageTextBox);
             this.Controls.Add(this.listenButton);
-            this.Controls.Add(this.label3);
             this.Controls.Add(this.ipTextBox);
             this.Controls.Add(this.chatTextBox);
             this.Controls.Add(this.label1);
+            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "ServerForm";
             this.Text = "ServerForm";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ServerForm_FormClosed);
@@ -151,7 +148,6 @@ namespace EncryShare
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.RichTextBox chatTextBox;
         private System.Windows.Forms.TextBox ipTextBox;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button listenButton;
         private System.Windows.Forms.Button sendButton;
         private System.Windows.Forms.RichTextBox messageTextBox;

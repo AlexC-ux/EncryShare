@@ -35,9 +35,10 @@ namespace EncryShare
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(319, 63);
+            this.button2.Location = new System.Drawing.Point(26, 102);
+            this.button2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(161, 70);
+            this.button2.Size = new System.Drawing.Size(184, 39);
             this.button2.TabIndex = 0;
             this.button2.Text = "Connect";
             this.button2.UseVisualStyleBackColor = true;
@@ -45,9 +46,10 @@ namespace EncryShare
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(53, 63);
+            this.button3.Location = new System.Drawing.Point(26, 40);
+            this.button3.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(161, 70);
+            this.button3.Size = new System.Drawing.Size(184, 39);
             this.button3.TabIndex = 1;
             this.button3.Text = "WaitConnection";
             this.button3.UseVisualStyleBackColor = true;
@@ -55,13 +57,13 @@ namespace EncryShare
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(553, 204);
+            this.ClientSize = new System.Drawing.Size(234, 187);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
+            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "Form1";
-            this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
 
