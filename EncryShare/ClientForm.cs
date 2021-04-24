@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Drawing;
+using System.Media;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
@@ -14,6 +14,8 @@ namespace EncryShare
 {
     public partial class ClientForm : Form
     {
+        
+        
         bool receive = true;
         Thread receiveFilesThread;
         Thread receiveFileListenerThread;
@@ -40,6 +42,7 @@ namespace EncryShare
                 tcpClient = new TcpClient();
                 
                 chatTextBox.Text += $"Начато подключение к {IPAddress.Parse(ipTextBox.Text)}\n";
+                SystemSounds.Beep.Play();
                 //tcpClient.SendTimeout = 7000;
                 //tcpClient.ReceiveTimeout = 7000;
 
@@ -53,6 +56,7 @@ namespace EncryShare
                 receiveThread = new Thread(ReceiveMessage);
                 receiveThread.Start();
                 chatTextBox.Text=("Установлено соединение с " + tcpClient.Client.RemoteEndPoint.ToString()+"\n");
+                SystemSounds.Beep.Play();
                 sendButton.Enabled = true;
                 messageTextBox.Enabled = true;
                 receiveFileListenerThread = new Thread(WaitFileConnection);
@@ -81,6 +85,7 @@ namespace EncryShare
                         receiveFilesThread = new Thread(ReceiveFileBytes);
                         receiveFilesThread.Start();
                         chatTextBox.Text += "!READY TO RECEIVE FILE!\n";
+                        SystemSounds.Beep.Play();
                     }
                 }
             }
@@ -110,6 +115,7 @@ namespace EncryShare
                         fs.Close();
                         chatTextBox.Text += "!FILE RECEIVED!\n(saved to downloads)\n";
                         SendMessage("!FILES TRANSFERED!");
+                        SystemSounds.Beep.Play();
                     }
 
 
@@ -142,7 +148,8 @@ namespace EncryShare
                     while (nStream.DataAvailable);
 
                     string message = builder.ToString();
-                    chatTextBox.Text += $"{tcpClient.Client.RemoteEndPoint}:" + message+"\n";
+                    chatTextBox.AppendText($"\nany: " + message+"\n");
+                    SystemSounds.Beep.Play();
 
                 }
                 catch (Exception ex)
@@ -163,6 +170,7 @@ namespace EncryShare
             label2.Text = new WebClient().DownloadString("http://icanhazip.com/");
             sendButton.Enabled = false;
             messageTextBox.Enabled = false;
+            
         }
 
         private void ClientForm_FormClosed(object sender, FormClosedEventArgs e)
@@ -170,6 +178,8 @@ namespace EncryShare
             
             try
             {
+                SendMessage("CLIENT DISCONNECTING");
+                SystemSounds.Beep.Play();
                 receiveFileListenerThread.Abort();
                 tcpFileClient.Client.Shutdown(SocketShutdown.Both);
                 tcpFileClient.Close();
@@ -201,7 +211,8 @@ namespace EncryShare
         private void sendButton_Click(object sender, EventArgs e)
         {
             SendMessage(messageTextBox.Text);
-            chatTextBox.Text += $"me:{messageTextBox.Text}\n";
+            chatTextBox.AppendText($"\nme: {messageTextBox.Text}\n");
+            SystemSounds.Beep.Play();
             messageTextBox.Text = "";
 
         }
