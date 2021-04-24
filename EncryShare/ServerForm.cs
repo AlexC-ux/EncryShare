@@ -14,8 +14,11 @@ namespace EncryShare
 {
     public partial class ServerForm : Form
     {
-        
-        
+
+        byte[] rsaExponent = CryptoTools.CryptoTools.GetRSAExponent();
+        byte[] rsaModulus = CryptoTools.CryptoTools.GetRSAModulus();
+        byte[] aesEncryptedKey;
+        byte[] aesEncryptedIV;
 
         SoundPlayer notifySound = new SoundPlayer(Environment.GetFolderPath(Environment.SpecialFolder.Windows) + @"\Media\Speech On.wav");
         OpenFileDialog getFileDialog = new OpenFileDialog();
@@ -73,6 +76,8 @@ namespace EncryShare
                         tcpListener.Stop();
                         listen = false;
                         nStream = tcpClient.GetStream();
+                        nStream.Write(rsaExponent,0,rsaExponent.Length);
+                        nStream.Write(rsaModulus,0,rsaModulus.Length);
                         receiveThread = new Thread(ReceiveMessage);
                         receiveThread.Start();
                         chatTextBox.Text = ("Установлено соединение с " + tcpClient.Client.RemoteEndPoint.ToString() + "\n");
@@ -172,6 +177,17 @@ namespace EncryShare
                     while (nStream.DataAvailable);
 
                     string message = builder.ToString();
+
+                    if (aesEncryptedIV==null)
+                    {
+                        if (aesEncryptedKey==null) { aesEncryptedKey = data; }
+                        else
+                        {
+                            aesEncryptedIV = data;
+                            CryptoTools.CryptoTools.SetAESKeys(aesEncryptedKey,aesEncryptedIV);
+
+                        }
+                    }
 
                     chatTextBox.AppendText("\nany: " + message + "\n");
                     

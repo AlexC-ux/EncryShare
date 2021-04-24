@@ -14,6 +14,13 @@ namespace EncryShare
 {
     public partial class ClientForm : Form
     {
+        byte[] rsaExponentReceived;
+        byte[] rsaModulusReceived;
+
+        byte[] aesEncryptedKey;
+        byte[] aesEncryptevIV;
+
+
         
         SoundPlayer notifySound = new SoundPlayer(Environment.GetFolderPath(Environment.SpecialFolder.Windows)+@"\Media\Speech On.wav");
         bool receive = true;
@@ -149,6 +156,23 @@ namespace EncryShare
                     while (nStream.DataAvailable);
 
                     string message = builder.ToString();
+
+                    if (rsaModulusReceived==null)
+                    {
+                        if (rsaExponentReceived==null)
+                        {
+                            rsaExponentReceived = data;
+                        }
+                        else { rsaModulusReceived = data;
+                            CryptoTools.CryptoTools.SetRSAOpenKeys(rsaModulusReceived,rsaExponentReceived);
+                            aesEncryptedKey = CryptoTools.CryptoTools.EncryptAESKey();
+                            aesEncryptevIV = CryptoTools.CryptoTools.EncryptAESIV();
+
+                        }
+                        
+                    }
+
+
                     chatTextBox.AppendText($"\nany: " + message+"\n");
                     
 
