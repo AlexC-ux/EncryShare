@@ -9,7 +9,8 @@ namespace CryptoTools
     {
         public UnicodeEncoding ByteConverter = new UnicodeEncoding();
         public static RSACryptoServiceProvider RSA = new RSACryptoServiceProvider(2048);
-        public RSAParameters RSAParam = RSA.ExportParameters(false);
+        public static RSAParameters RSAParam = RSA.ExportParameters(false);
+        
         Aes myAes = Aes.Create();
 
         public static byte [] GetRSAModulus()
@@ -27,11 +28,11 @@ namespace CryptoTools
         }
         public static byte [] EncryptRSA(byte [] DataToEncrypt)
         {
-            return RSA.Encrypt(DataToEncrypt, true)
+            return RSA.Encrypt(DataToEncrypt, true);
         }
         public static byte [] DecryptRSA(byte [] DataToDecrypt)
         {
-            return RSA.Decrypt(DataToDecrypt, true)
+            return RSA.Decrypt(DataToDecrypt, true);
         }
         public static byte[] EncryptString(string textToEncrypt, byte[] AESKey, byte[] AESIV)
         {
