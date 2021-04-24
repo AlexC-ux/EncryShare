@@ -7,12 +7,16 @@ using System.Net.Sockets;
 using System.Text;
 using System.Windows.Forms;
 using System.Threading;
+using System.Security.Cryptography;
+using CryptoTools;
 
 namespace EncryShare
 {
     public partial class ServerForm : Form
     {
         
+        
+
         SoundPlayer notifySound = new SoundPlayer(Environment.GetFolderPath(Environment.SpecialFolder.Windows) + @"\Media\Speech On.wav");
         OpenFileDialog getFileDialog = new OpenFileDialog();
         bool receive = true;

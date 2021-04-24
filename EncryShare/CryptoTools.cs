@@ -5,8 +5,11 @@ using System.Text;
 
 namespace CryptoTools
 {
-    public class AESCrypt
+    
+    public class CryptEncryShare
     {
+        public static RSACryptoServiceProvider RSACryptoProvider = new RSACryptoServiceProvider(2048);
+        public static RSAParameters RSAParam = RSACryptoProvider.ExportParameters(false);
         public UnicodeEncoding ByteConverter = new UnicodeEncoding();
 
 
