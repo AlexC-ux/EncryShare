@@ -130,6 +130,7 @@ namespace EncryShare
             this.Text = "ServerForm";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ServerForm_FormClosed);
             this.Load += new System.EventHandler(this.ServerForm_Load);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.ServerForm_KeyUp);
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -36,6 +36,7 @@ namespace EncryShare
             label2.Text = new WebClient().DownloadString("http://icanhazip.com/");
             sendButton.Enabled = false;
             messageTextBox.Enabled = false;
+            button1.Enabled = false;
 
         }
 
@@ -70,6 +71,7 @@ namespace EncryShare
                         receiveThread.Start();
                         chatTextBox.Text = ("Установлено соединение с " + tcpClient.Client.RemoteEndPoint.ToString() + "\n");
                         notifySound.Play();
+                        button1.Enabled = true;
                         sendButton.Enabled = true;
                         messageTextBox.Enabled = true;
                         receiveFileListenerThread = new Thread(WaitFileConnection);
@@ -252,6 +254,16 @@ namespace EncryShare
         {
             chatTextBox.SelectionStart = chatTextBox.Text.Length;
             chatTextBox.ScrollToCaret();
+        }
+
+        private void ServerForm_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter && messageTextBox.Enabled)
+            {
+                button1.PerformClick();
+                messageTextBox.Focus();
+            }
+            
         }
     }
 }

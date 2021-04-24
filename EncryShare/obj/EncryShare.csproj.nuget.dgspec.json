@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\AlexC-ux\\source\\repos\\EncryShare\\EncryShare\\EncryShare.csproj": {}
+    "C:\\Users\\AlexC-ux\\Source\\Repos\\EncryShare\\EncryShare\\EncryShare.csproj": {}
   },
   "projects": {
-    "C:\\Users\\AlexC-ux\\source\\repos\\EncryShare\\EncryShare\\EncryShare.csproj": {
+    "C:\\Users\\AlexC-ux\\Source\\Repos\\EncryShare\\EncryShare\\EncryShare.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\AlexC-ux\\source\\repos\\EncryShare\\EncryShare\\EncryShare.csproj",
+        "projectUniqueName": "C:\\Users\\AlexC-ux\\Source\\Repos\\EncryShare\\EncryShare\\EncryShare.csproj",
         "projectName": "EncryShare",
-        "projectPath": "C:\\Users\\AlexC-ux\\source\\repos\\EncryShare\\EncryShare\\EncryShare.csproj",
+        "projectPath": "C:\\Users\\AlexC-ux\\Source\\Repos\\EncryShare\\EncryShare\\EncryShare.csproj",
         "packagesPath": "C:\\Users\\AlexC-ux\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\AlexC-ux\\source\\repos\\EncryShare\\EncryShare\\obj\\",
+        "outputPath": "C:\\Users\\AlexC-ux\\Source\\Repos\\EncryShare\\EncryShare\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\AlexC-ux\\AppData\\Roaming\\NuGet\\NuGet.Config",
