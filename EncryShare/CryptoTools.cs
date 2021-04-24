@@ -25,6 +25,11 @@ namespace CryptoTools
             RSAParam.Modulus = Modulus;
             RSAParam.Exponent = Exponent;
         }
+        public static void SetAESKeys(byte [] EncryptedKey, byte [] EncryptedIV)
+        {
+            myAes.Key = RSA.Decrypt(EncryptedKey, true);
+            myAes.IV = RSA.Decrypt(EncryptedIV, true);
+        }
         public static byte[] EncryptRSA(byte[] DataToEncrypt)
         {
             return RSA.Encrypt(DataToEncrypt, true);
