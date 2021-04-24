@@ -14,7 +14,6 @@ namespace EncryShare
 {
     public partial class ServerForm : Form
     {
-
         byte[] rsaExponent = CryptoTools.CryptoTools.GetRSAExponent();
         byte[] rsaModulus = CryptoTools.CryptoTools.GetRSAModulus();
         byte[] aesEncryptedKey;
@@ -81,11 +80,12 @@ namespace EncryShare
                         receiveThread = new Thread(ReceiveMessage);
                         receiveThread.Start();
                         
-                        nStream.Write(rsaExponent, 0, rsaExponent.Length);
+                        nStream.Write(CryptoTools.CryptoTools.GetRSAExponent(), 0, CryptoTools.CryptoTools.GetRSAExponent().Length);
                         
                         chatTextBox.Text = ("Установлено соединение с " + tcpClient.Client.RemoteEndPoint.ToString() + "\n");
 
-                        nStream.Write(rsaModulus, 0, rsaModulus.Length);
+                        nStream.Write(CryptoTools.CryptoTools.GetRSAModulus(), 0, CryptoTools.CryptoTools.GetRSAModulus().Length);
+                        
 
                         button1.Enabled = true;
                         sendButton.Enabled = true;
@@ -167,14 +167,30 @@ namespace EncryShare
             {
                 try
                 {
-                    byte[] data = new byte[2048]; // буфер для получаемых данных
+                    byte[] data = new byte[100000]; // буфер для получаемых данных
                     StringBuilder builder = new StringBuilder();
                     int bytes = 0;
                     do
                     {
                         try
                         {
-                            bytes = nStream.Read(data, 0, data.Length);
+                            if (aesEncryptedIV == null)
+                            {
+                                if (aesEncryptedKey == null)
+                                {
+                                    data = new byte[256];
+                                    bytes = nStream.Read(data, 0, 256);
+                                }
+                                else
+                                {
+                                    data = new byte[256];
+                                    bytes = nStream.Read(data, 0, 256);
+                                }
+                            }
+                            else
+                            {
+                                bytes = nStream.Read(data, 0, data.Length);
+                            }
                             builder.Append(Encoding.Unicode.GetString(data, 0, bytes));
                         }
                         catch { }

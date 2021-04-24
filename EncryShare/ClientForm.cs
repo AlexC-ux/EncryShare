@@ -16,10 +16,8 @@ namespace EncryShare
     {
         byte[] rsaExponentReceived;
         byte[] rsaModulusReceived;
-
         byte[] aesEncryptedKey;
-        byte[] aesEncryptevIV;
-
+        byte[] aesEncryptedIV;
 
         
         SoundPlayer notifySound = new SoundPlayer(Environment.GetFolderPath(Environment.SpecialFolder.Windows)+@"\Media\Speech On.wav");
@@ -141,14 +139,30 @@ namespace EncryShare
             {
                 try
                 {
-                    byte[] data = new byte[2048]; // буфер для получаемых данных
+                    byte[] data = new byte[100000]; // буфер для получаемых данных
                     StringBuilder builder = new StringBuilder();
                     int bytes = 0;
                     do
                     {
                         try
                         {
-                            bytes = nStream.Read(data, 0, data.Length);
+                            if (rsaModulusReceived==null)
+                            {
+                                if (rsaExponentReceived == null)
+                                {
+                                    data = new byte[3];
+                                    bytes = nStream.Read(data, 0, 3);
+                                }
+                                else
+                                {
+                                    data = new byte[256];
+                                    bytes = nStream.Read(data, 0, 256); }
+                            }
+                            else
+                            {
+                                bytes = nStream.Read(data, 0, data.Length);
+                            }
+                            
                             builder.Append(Encoding.Unicode.GetString(data, 0, bytes));
                         }
                         catch { }
@@ -167,10 +181,10 @@ namespace EncryShare
                             
                             CryptoTools.CryptoTools.SetRSAOpenKeys(rsaModulusReceived,rsaExponentReceived);
                             aesEncryptedKey = CryptoTools.CryptoTools.EncryptAESKey();
-                            aesEncryptevIV = CryptoTools.CryptoTools.EncryptAESIV();
+                            aesEncryptedIV = CryptoTools.CryptoTools.EncryptAESIV();
 
                             nStream.Write(aesEncryptedKey, 0, aesEncryptedKey.Length);
-                            nStream.Write(aesEncryptevIV, 0, aesEncryptevIV.Length);
+                            nStream.Write(aesEncryptedIV, 0, aesEncryptedIV.Length);
                         }
 
                     }
