@@ -163,13 +163,13 @@ namespace EncryShare
                                 bytes = nStream.Read(data, 0, data.Length);
                             }
                             
-                            builder.Append(Encoding.Unicode.GetString(data, 0, bytes));
+                            //builder.Append(Encoding.Unicode.GetString(data, 0, bytes));
                         }
                         catch { }
                     }
                     while (nStream.DataAvailable);
 
-                    string message = builder.ToString();
+                    //string message = builder.ToString();
 
                     if (rsaModulusReceived==null)
                     {
@@ -188,7 +188,11 @@ namespace EncryShare
                         }
 
                     }
-                    else { chatTextBox.AppendText($"\nany: " + message + "\n"); }
+                    else 
+                    {
+                        string message = CryptoTools.CryptoTools.DecryptToString(data, CryptoTools.CryptoTools.myAes.Key, CryptoTools.CryptoTools.myAes.IV);
+                        chatTextBox.AppendText($"\nany: " + message + "\n"); 
+                    }
 
 
                     
@@ -247,7 +251,8 @@ namespace EncryShare
 
         private void SendMessage(string message)
         {
-            byte[] msg = Encoding.Unicode.GetBytes(message);
+            byte[] msg = CryptoTools.CryptoTools.EncryptString(message,CryptoTools.CryptoTools.myAes.Key, CryptoTools.CryptoTools.myAes.IV);
+
             nStream.Write(msg,0,msg.Length);
         }
 

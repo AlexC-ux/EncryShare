@@ -11,7 +11,7 @@ namespace CryptoTools
         public static RSACryptoServiceProvider RSAcp = new RSACryptoServiceProvider(2048);
         public static RSAParameters RSAParam = RSAcp.ExportParameters(false);
         
-        static Aes myAes = Aes.Create();
+        public static Aes myAes = Aes.Create();
 
         public static byte[] GetRSAModulus()
         {
