@@ -56,7 +56,28 @@ namespace EncryShare
             tcpListener.Start(10);
             chatTextBox.Text = $"Начато ожидание {IPAddress.Parse(ipTextBox.Text)}\n";
             
-            
+            void MakeConnection()
+            {
+                tcpListener.Stop();
+                listen = false;
+                nStream = tcpClient.GetStream();
+
+                receiveThread = new Thread(ReceiveMessage);
+                receiveThread.Start();
+
+                nStream.Write(CryptoTools.CryptoTools.GetRSAExponent(), 0, CryptoTools.CryptoTools.GetRSAExponent().Length);
+
+                chatTextBox.Text = ("Установлено соединение с " + tcpClient.Client.RemoteEndPoint.ToString() + "\n");
+
+                nStream.Write(CryptoTools.CryptoTools.GetRSAModulus(), 0, CryptoTools.CryptoTools.GetRSAModulus().Length);
+
+
+                button1.Enabled = true;
+                sendButton.Enabled = true;
+                messageTextBox.Enabled = true;
+                receiveFileListenerThread = new Thread(WaitFileConnection);
+                receiveFileListenerThread.Start();
+            }
 
             try
             {
@@ -68,30 +89,16 @@ namespace EncryShare
                     tcpClient = tcpListener.AcceptTcpClient();
                     if (tcpClient.Client.RemoteEndPoint.ToString().Split(':')[0] != ipTextBox.Text)
                     {
-                        MessageBox.Show("К вам желал подключиться незнакомый клиент\n" + tcpClient.Client.RemoteEndPoint.ToString());
+                        if (MessageBox.Show("К вам желал подключиться незнакомый клиент\n" + tcpClient.Client.RemoteEndPoint.ToString()+"\nПрервать его подключение?","Посторонний клиент!", MessageBoxButtons.YesNo) == DialogResult.No)
+                        {
+                            MakeConnection();
+                        }
+                        else { continue; }
                     }
                     else
                     {
 
-                        tcpListener.Stop();
-                        listen = false;
-                        nStream = tcpClient.GetStream();
-                        
-                        receiveThread = new Thread(ReceiveMessage);
-                        receiveThread.Start();
-                        
-                        nStream.Write(CryptoTools.CryptoTools.GetRSAExponent(), 0, CryptoTools.CryptoTools.GetRSAExponent().Length);
-                        
-                        chatTextBox.Text = ("Установлено соединение с " + tcpClient.Client.RemoteEndPoint.ToString() + "\n");
-
-                        nStream.Write(CryptoTools.CryptoTools.GetRSAModulus(), 0, CryptoTools.CryptoTools.GetRSAModulus().Length);
-                        
-
-                        button1.Enabled = true;
-                        sendButton.Enabled = true;
-                        messageTextBox.Enabled = true;
-                        receiveFileListenerThread = new Thread(WaitFileConnection);
-                        receiveFileListenerThread.Start();
+                        MakeConnection();
                     }
                 }
             }
@@ -130,7 +137,7 @@ namespace EncryShare
             {
                 try
                 {
-                    byte[] data = new byte[84748364]; // буфер для получаемых данных
+                    byte[] data = new byte[268435456]; // буфер для получаемых данных
                     int bytes = 0;
                     do
                     {
@@ -141,10 +148,11 @@ namespace EncryShare
                         catch { }
                     }
                     while (fileNStream.DataAvailable);
-                    if (data != new byte[814748364])
+                    if (data != new byte[268435456])
                     {
+                        byte[] decryptedData = CryptoTools.CryptoTools.DecryptToByte(data, CryptoTools.CryptoTools.myAes.Key, CryptoTools.CryptoTools.myAes.IV, bytes);
                         FileStream fs = File.Create(Environment.GetEnvironmentVariable("USERPROFILE") + @"\" + "Downloads" + @"\" + DateTime.Now.Year + DateTime.Now.DayOfYear + DateTime.Now.DayOfWeek + DateTime.Now.Hour + DateTime.Now.Minute + DateTime.Now.Second + ".encryshare", bytes);
-                        fs.Write(data, 0, bytes);
+                        fs.Write(decryptedData, 0, decryptedData.Length);
                         fs.Close();
                         chatTextBox.Text += "!FILE RECEIVED!\n(saved to downloads)\n";
                         SendMessage("!FILES TRANSFERED!");
@@ -167,7 +175,7 @@ namespace EncryShare
             {
                 try
                 {
-                    byte[] data = new byte[100000]; // буфер для получаемых данных
+                    byte[] data = new byte[65536]; // буфер для получаемых данных
                     StringBuilder builder = new StringBuilder();
                     int bytes = 0;
                     do
@@ -207,13 +215,15 @@ namespace EncryShare
                         {
                             aesEncryptedIV = data;
                             CryptoTools.CryptoTools.SetAESKeys(aesEncryptedKey,aesEncryptedIV);
-                            SendMessage("Handshake completed!");
+                            
                             chatTextBox.AppendText("\nHandshake completed!\n");
+                            SendMessage("Handshake completed!");
                         }
                     }
                     else 
                     {
-                        string message = CryptoTools.CryptoTools.DecryptToString(data, CryptoTools.CryptoTools.myAes.Key, CryptoTools.CryptoTools.myAes.IV);
+
+                        string message = Encoding.Default.GetString(CryptoTools.CryptoTools.DecryptToByte(data, CryptoTools.CryptoTools.myAes.Key, CryptoTools.CryptoTools.myAes.IV,bytes));
                         chatTextBox.AppendText("\nany: " + message + "\n"); 
                     }
 
@@ -288,16 +298,25 @@ namespace EncryShare
                 fileNStream = tcpFileClient.GetStream();
             }
 
-            getFileDialog.ShowDialog();
-            try
+            if (getFileDialog.ShowDialog() == DialogResult.OK)
             {
 
-                byte[] data = File.ReadAllBytes(getFileDialog.FileName);
-                fileNStream.Write(data, 0, data.Length);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
+                if (getFileDialog.FileName.Length > 0)
+                {
+                    try
+                    {
+
+                        byte[] data = File.ReadAllBytes(getFileDialog.FileName);
+
+                        byte[] encryBytes = CryptoTools.CryptoTools.EncryptFileToByte(getFileDialog.FileName, CryptoTools.CryptoTools.myAes.Key, CryptoTools.CryptoTools.myAes.IV, data.Length);
+                        fileNStream.Write(encryBytes, 0, encryBytes.Length);
+                        SendMessage(getFileDialog.FileName.Split('\\')[getFileDialog.FileName.Split('\\').Length - 1]);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.ToString());
+                    }
+                }
             }
         }
 

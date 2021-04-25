@@ -14,4 +14,3 @@ C:\Users\AlexC-ux\source\repos\EncryShare\EncryShare\obj\Debug\netcoreapp3.1\Enc
 C:\Users\AlexC-ux\source\repos\EncryShare\EncryShare\obj\Debug\netcoreapp3.1\EncryShare.pdb
 C:\Users\AlexC-ux\source\repos\EncryShare\EncryShare\obj\Debug\netcoreapp3.1\EncryShare.genruntimeconfig.cache
 C:\Users\AlexC-ux\source\repos\EncryShare\EncryShare\obj\Debug\netcoreapp3.1\EncryShare.ClientForm.resources
-C:\Users\AlexC-ux\source\repos\EncryShare\EncryShare\obj\Debug\netcoreapp3.1\EncryShare.csprojAssemblyReference.cache

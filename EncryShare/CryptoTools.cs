@@ -72,7 +72,7 @@ namespace CryptoTools
             }
             return encrypted;
         }
-        public static byte[] EncryptFileToByte(string FileDirectory, byte[] AESKey, byte[] AESIV)
+        public static byte[] EncryptFileToByte(string FileDirectory, byte[] AESKey, byte[] AESIV, int lenght)
         {
             using (Aes aesAlg = Aes.Create())
             {
@@ -82,7 +82,7 @@ namespace CryptoTools
 
                 using (ICryptoTransform encryptor = aesAlg.CreateEncryptor(aesAlg.Key, aesAlg.IV))
                 {
-                    return PerformCryptography(encryptor, encrypted);
+                    return PerformCryptography(encryptor, encrypted, lenght);
                 }
             }
         }
@@ -155,13 +155,13 @@ namespace CryptoTools
                 }
             }
         }
-        public static byte[] DecryptToByte(byte[] data, byte[] AESKey, byte[] AESIV)
+        public static byte[] DecryptToByte(byte[] data, byte[] AESKey, byte[] AESIV, int lenght)
         {
             using (Aes aesAlg = Aes.Create())
             {
                 using (var decryptor = aesAlg.CreateDecryptor(AESKey, AESIV))
                 {
-                    return PerformCryptography(decryptor, data);
+                    return PerformCryptography(decryptor, data, lenght);
                 }
             }
         }
@@ -170,13 +170,13 @@ namespace CryptoTools
 
 
 
-        private static byte[] PerformCryptography(ICryptoTransform cryptoTransform, byte[] data)
+        private static byte[] PerformCryptography(ICryptoTransform cryptoTransform, byte[] data, int lenght)
         {
             using (var memoryStream = new MemoryStream())
             {
                 using (var cryptoStream = new CryptoStream(memoryStream, cryptoTransform, CryptoStreamMode.Write))
                 {
-                    cryptoStream.Write(data, 0, data.Length);
+                    cryptoStream.Write(data, 0, lenght);
                     cryptoStream.FlushFinalBlock();
                     return memoryStream.ToArray();
                 }

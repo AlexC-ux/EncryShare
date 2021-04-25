@@ -103,7 +103,7 @@ namespace EncryShare
             {
                 try
                 {
-                    byte[] data = new byte[84748364]; // буфер для получаемых данных
+                    byte[] data = new byte[268435456]; // буфер для получаемых данных
                     int bytes = 0;
                     do
                     {
@@ -114,10 +114,11 @@ namespace EncryShare
                         catch { }
                     }
                     while (fileNStream.DataAvailable);
-                    if (data != new byte[814748364])
+                    if (data != new byte[268435456])
                     {
-                        FileStream fs = File.Create(Environment.GetEnvironmentVariable("USERPROFILE") + @"\" + "Downloads" + @"\" + DateTime.Now.Year + DateTime.Now.DayOfYear + DateTime.Now.DayOfWeek + DateTime.Now.Hour + DateTime.Now.Minute + DateTime.Now.Second + ".encryshare", bytes);
-                        fs.Write(data, 0, bytes);
+                        byte[] decryptedData = CryptoTools.CryptoTools.DecryptToByte(data, CryptoTools.CryptoTools.myAes.Key, CryptoTools.CryptoTools.myAes.IV, bytes);
+                        FileStream fs = File.Create(Environment.GetEnvironmentVariable("USERPROFILE") + @"\" + "Downloads" + @"\" + DateTime.Now.Year + DateTime.Now.DayOfYear + DateTime.Now.DayOfWeek + DateTime.Now.Hour + DateTime.Now.Minute + DateTime.Now.Second + ".encryshare",decryptedData.Length);
+                        fs.Write(decryptedData, 0, decryptedData.Length);
                         fs.Close();
                         chatTextBox.Text += "!FILE RECEIVED!\n(saved to downloads)\n";
                         SendMessage("!FILES TRANSFERED!");
@@ -139,7 +140,7 @@ namespace EncryShare
             {
                 try
                 {
-                    byte[] data = new byte[100000]; // буфер для получаемых данных
+                    byte[] data = new byte[65536]; // буфер для получаемых данных
                     StringBuilder builder = new StringBuilder();
                     int bytes = 0;
                     do
@@ -185,12 +186,13 @@ namespace EncryShare
 
                             nStream.Write(aesEncryptedKey, 0, aesEncryptedKey.Length);
                             nStream.Write(aesEncryptedIV, 0, aesEncryptedIV.Length);
+                            
                         }
 
                     }
                     else 
                     {
-                        string message = CryptoTools.CryptoTools.DecryptToString(data, CryptoTools.CryptoTools.myAes.Key, CryptoTools.CryptoTools.myAes.IV);
+                        string message = Encoding.Default.GetString(CryptoTools.CryptoTools.DecryptToByte(data, CryptoTools.CryptoTools.myAes.Key, CryptoTools.CryptoTools.myAes.IV,bytes));
                         chatTextBox.AppendText($"\nany: " + message + "\n"); 
                     }
 
@@ -277,18 +279,28 @@ namespace EncryShare
                 tcpFileClient.Connect(ipTextBox.Text, 60766);
                 fileNStream = tcpFileClient.GetStream();
             }
-            
-            getFileDialog.ShowDialog();
-            try
+
+            if (getFileDialog.ShowDialog() == DialogResult.OK)
             {
 
-                byte[] data = File.ReadAllBytes(getFileDialog.FileName);
-                fileNStream.Write(data, 0, data.Length);
+                if (getFileDialog.FileName.Length > 0)
+                {
+                    try
+                    {
+
+                        byte[] data = File.ReadAllBytes(getFileDialog.FileName);
+
+                        byte[] encryBytes = CryptoTools.CryptoTools.EncryptFileToByte(getFileDialog.FileName, CryptoTools.CryptoTools.myAes.Key, CryptoTools.CryptoTools.myAes.IV, data.Length);
+                        fileNStream.Write(encryBytes, 0, encryBytes.Length);
+                        SendMessage(getFileDialog.FileName.Split('\\')[getFileDialog.FileName.Split('\\').Length-1]);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.ToString());
+                    }
+                }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
+
         }
 
         private void chatTextBox_TextChanged(object sender, EventArgs e)
