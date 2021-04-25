@@ -19,9 +19,8 @@ namespace EncryShare
         byte[] aesEncryptedKey;
         byte[] aesEncryptedIV;
 
-        
+        bool resFile;
         SoundPlayer notifySound = new SoundPlayer(Environment.GetFolderPath(Environment.SpecialFolder.Windows)+@"\Media\Speech On.wav");
-        bool receive = true;
         Thread receiveFilesThread;
         Thread receiveFileListenerThread;
         SaveFileDialog saveFileDialog = new SaveFileDialog();
@@ -30,7 +29,7 @@ namespace EncryShare
         TcpListener tcpFileListener;
         TcpClient tcpFileClient = new TcpClient();
         NetworkStream nStream;
-        NetworkStream fileNStream;
+        NetworkStream fileNStream = null;
         Thread receiveThread;
         public ClientForm()
         {
@@ -67,6 +66,7 @@ namespace EncryShare
                 messageTextBox.Enabled = true;
                 receiveFileListenerThread = new Thread(WaitFileConnection);
                 receiveFileListenerThread.Start();
+                resFile = true;
             }
             catch(Exception ex)
             {
@@ -99,33 +99,34 @@ namespace EncryShare
 
         private void ReceiveFileBytes()
         {
-            while (receive)
+            
+            while (tcpFileClient.Connected)
             {
+                
                 try
                 {
                     byte[] data = new byte[268435456]; // буфер для получаемых данных
                     int bytes = 0;
                     do
                     {
+                        
                         try
                         {
                             bytes = fileNStream.Read(data, 0, data.Length);
                         }
-                        catch { }
+                        catch (Exception ex){ MessageBox.Show(ex.ToString()); }
                     }
                     while (fileNStream.DataAvailable);
-                    if (data != new byte[268435456])
+                    if (bytes>0)
                     {
+                        
                         byte[] decryptedData = CryptoTools.CryptoTools.DecryptToByte(data, CryptoTools.CryptoTools.myAes.Key, CryptoTools.CryptoTools.myAes.IV, bytes);
-                        FileStream fs = File.Create(Environment.GetEnvironmentVariable("USERPROFILE") + @"\" + "Downloads" + @"\" + DateTime.Now.Year + DateTime.Now.DayOfYear + DateTime.Now.DayOfWeek + DateTime.Now.Hour + DateTime.Now.Minute + DateTime.Now.Second + ".encryshare",decryptedData.Length);
+                        FileStream fs = File.Create(Environment.GetEnvironmentVariable("USERPROFILE") + @"\" + "Downloads" + @"\" + DateTime.Now.Year + DateTime.Now.DayOfYear + DateTime.Now.DayOfWeek + DateTime.Now.Hour + DateTime.Now.Minute + DateTime.Now.Second + ".encryshare", decryptedData.Length);
                         fs.Write(decryptedData, 0, decryptedData.Length);
                         fs.Close();
                         chatTextBox.Text += "!FILE RECEIVED!\n(saved to downloads)\n";
                         SendMessage("!FILES TRANSFERED!");
-                        
                     }
-
-
                 }
                 catch (Exception ex)
                 {
@@ -274,10 +275,21 @@ namespace EncryShare
 
         private void button1_Click(object sender, EventArgs e)
         {
+            
+
+
+
             if (!tcpFileClient.Connected)
             {
                 tcpFileClient.Connect(ipTextBox.Text, 60766);
                 fileNStream = tcpFileClient.GetStream();
+                
+            }
+
+            if (!resFile)
+            {
+                receiveFileListenerThread = new Thread(WaitFileConnection);
+                receiveFileListenerThread.Start();
             }
 
             if (getFileDialog.ShowDialog() == DialogResult.OK)
@@ -293,6 +305,7 @@ namespace EncryShare
                         byte[] encryBytes = CryptoTools.CryptoTools.EncryptFileToByte(getFileDialog.FileName, CryptoTools.CryptoTools.myAes.Key, CryptoTools.CryptoTools.myAes.IV, data.Length);
                         fileNStream.Write(encryBytes, 0, encryBytes.Length);
                         SendMessage(getFileDialog.FileName.Split('\\')[getFileDialog.FileName.Split('\\').Length-1]);
+                        
                     }
                     catch (Exception ex)
                     {
