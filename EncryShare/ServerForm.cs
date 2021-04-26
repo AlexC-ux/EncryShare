@@ -67,14 +67,13 @@ namespace EncryShare
 
                 nStream.Write(CryptoTools.CryptoTools.GetRSAExponent(), 0, CryptoTools.CryptoTools.GetRSAExponent().Length);
 
-                chatTextBox.Text = ("Установлено соединение с " + tcpClient.Client.RemoteEndPoint.ToString() + "\n");
+                chatTextBox.Text = ("Соединение установлено.\n");
 
                 nStream.Write(CryptoTools.CryptoTools.GetRSAModulus(), 0, CryptoTools.CryptoTools.GetRSAModulus().Length);
 
 
-                button1.Enabled = true;
-                sendButton.Enabled = true;
-                messageTextBox.Enabled = true;
+                
+                
                 receiveFileListenerThread = new Thread(WaitFileConnection);
                 receiveFileListenerThread.Start();
             }
@@ -155,15 +154,15 @@ namespace EncryShare
                     while (fileNStream.DataAvailable);
                     if (bytes>0)
                     {
-                        
+                        string fileName = Environment.GetEnvironmentVariable("USERPROFILE") + @"\" + "Downloads" + @"\" + DateTime.Now.Year + DateTime.Now.DayOfYear + DateTime.Now.DayOfWeek + DateTime.Now.Hour + DateTime.Now.Minute + DateTime.Now.Second + ".encryshare";
                         byte[] decryptedData = CryptoTools.CryptoTools.DecryptToByte(data, CryptoTools.CryptoTools.myAes.Key, CryptoTools.CryptoTools.myAes.IV, bytes);
-                        FileStream fs = File.Create(Environment.GetEnvironmentVariable("USERPROFILE") + @"\" + "Downloads" + @"\" + DateTime.Now.Year + DateTime.Now.DayOfYear + DateTime.Now.DayOfWeek + DateTime.Now.Hour + DateTime.Now.Minute + DateTime.Now.Second + ".encryshare", bytes);
+                        FileStream fs = File.Create(fileName, bytes);
                         fs.Write(decryptedData, 0, decryptedData.Length);
                         fs.Close();
-                        
-                        chatTextBox.Text += "!FILE RECEIVED!\n(saved to downloads)\n";
-                        SendMessage("!FILES TRANSFERED!");
-                        
+
+                        chatTextBox.Text += $"!File received and saved to downloads as\n{fileName}\n";
+                        SendMessage("\nFile successfully sent.\n");
+
                     }
 
 
@@ -225,6 +224,9 @@ namespace EncryShare
                             
                             chatTextBox.AppendText("\nHandshake completed!\n");
                             SendMessage("Handshake completed!");
+                            messageTextBox.Enabled = true;
+                            sendButton.Enabled = true;
+                            button1.Enabled = true;
                         }
                     }
                     else 
