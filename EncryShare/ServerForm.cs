@@ -77,7 +77,6 @@ namespace EncryShare
                 messageTextBox.Enabled = true;
                 receiveFileListenerThread = new Thread(WaitFileConnection);
                 receiveFileListenerThread.Start();
-                resFile = true;
             }
 
             try
@@ -125,7 +124,8 @@ namespace EncryShare
                         fileNStream = tcpFileClient.GetStream();
                         receiveFilesThread = new Thread(ReceiveFileBytes);
                         receiveFilesThread.Start();
-                        chatTextBox.Text += "!READY TO RECEIVE FILE!\n";
+                        resFile = true;
+                        
                         
                     }
                 }
@@ -247,7 +247,7 @@ namespace EncryShare
 
         private void listenButton_Click(object sender, EventArgs e)
         {
-            
+            ipTextBox.Enabled = false;
             listenThread = new Thread(StartListening);
             listenThread.Start();
             listenButton.Enabled = false;
@@ -311,8 +311,8 @@ namespace EncryShare
 
             if (!resFile)
             {
-                receiveFileListenerThread = new Thread(WaitFileConnection);
-                receiveFileListenerThread.Start();
+                receiveFilesThread = new Thread(ReceiveFileBytes);
+                receiveFilesThread.Start();
             }
 
 
