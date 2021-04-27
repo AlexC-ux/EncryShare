@@ -258,9 +258,13 @@ namespace EncryShare
 
         private void SendMessage(string message)
         {
-            byte[] msg = CryptoTools.CryptoTools.EncryptString(message,CryptoTools.CryptoTools.myAes.Key, CryptoTools.CryptoTools.myAes.IV);
+            if (tcpClient.Connected)
+            {
+                byte[] msg = CryptoTools.CryptoTools.EncryptString(message, CryptoTools.CryptoTools.myAes.Key, CryptoTools.CryptoTools.myAes.IV);
+                nStream.Write(msg, 0, msg.Length);
+            }
+            else { MessageBox.Show(text: "Сессия завершена!", caption: "Ошибка отправки текстового сообщения", buttons: MessageBoxButtons.OK); }
 
-            nStream.Write(msg,0,msg.Length);
         }
 
         private void sendButton_Click(object sender, EventArgs e)
@@ -279,44 +283,46 @@ namespace EncryShare
 
         private void button1_Click(object sender, EventArgs e)
         {
-            
 
-
-
-            if (!tcpFileClient.Connected)
-            {
-                tcpFileClient.Connect(ipTextBox.Text, 60766);
-                fileNStream = tcpFileClient.GetStream();
-                
-            }
-
-            if (!resFile)
-            {
-                receiveFilesThread = new Thread(ReceiveFileBytes);
-                receiveFilesThread.Start();
-            }
-
-            if (getFileDialog.ShowDialog() == DialogResult.OK)
+            try
             {
 
-                if (getFileDialog.FileName.Length > 0)
+                if (!tcpFileClient.Connected)
                 {
-                    try
-                    {
+                    tcpFileClient.Connect(ipTextBox.Text, 60766);
+                    fileNStream = tcpFileClient.GetStream();
 
-                        byte[] data = File.ReadAllBytes(getFileDialog.FileName);
+                }
 
-                        byte[] encryBytes = CryptoTools.CryptoTools.EncryptFileToByte(getFileDialog.FileName, CryptoTools.CryptoTools.myAes.Key, CryptoTools.CryptoTools.myAes.IV, data.Length);
-                        fileNStream.Write(encryBytes, 0, encryBytes.Length);
-                        SendMessage(getFileDialog.FileName.Split('\\')[getFileDialog.FileName.Split('\\').Length-1]);
-                        
-                    }
-                    catch (Exception ex)
+                if (!resFile)
+                {
+                    receiveFilesThread = new Thread(ReceiveFileBytes);
+                    receiveFilesThread.Start();
+                }
+
+                if (getFileDialog.ShowDialog() == DialogResult.OK)
+                {
+
+                    if (getFileDialog.FileName.Length > 0)
                     {
-                        MessageBox.Show(ex.ToString());
+                        try
+                        {
+
+                            byte[] data = File.ReadAllBytes(getFileDialog.FileName);
+
+                            byte[] encryBytes = CryptoTools.CryptoTools.EncryptFileToByte(getFileDialog.FileName, CryptoTools.CryptoTools.myAes.Key, CryptoTools.CryptoTools.myAes.IV, data.Length);
+                            fileNStream.Write(encryBytes, 0, encryBytes.Length);
+                            SendMessage(getFileDialog.FileName.Split('\\')[getFileDialog.FileName.Split('\\').Length - 1]);
+
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(ex.ToString());
+                        }
                     }
                 }
             }
+            catch { MessageBox.Show(text: "Сессия завершена!", caption: "Ошибка отправки файла", buttons: MessageBoxButtons.OK); }
 
         }
 
