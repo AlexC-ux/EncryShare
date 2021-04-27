@@ -160,8 +160,8 @@ namespace EncryShare
                         fs.Write(decryptedData, 0, decryptedData.Length);
                         fs.Close();
 
-                        chatTextBox.Text += $"!File received and saved to downloads as\n{fileName}\n";
-                        SendMessage("\nFile successfully sent.\n");
+                        chatTextBox.Text += $"Принятый файл сохранён в загрузках как\n{fileName}\n";
+                        SendMessage("\nФайл успешно доставлен.\n");
 
                     }
 
@@ -222,8 +222,8 @@ namespace EncryShare
                             aesEncryptedIV = data;
                             CryptoTools.CryptoTools.SetAESKeys(aesEncryptedKey,aesEncryptedIV);
                             
-                            chatTextBox.AppendText("\nHandshake completed!\n");
-                            SendMessage("Handshake completed!");
+                            chatTextBox.AppendText("\nОбмен ключами шифрования завершен!\n");
+                            SendMessage("\nОбмен ключами шифрования завершен!\n");
                             messageTextBox.Enabled = true;
                             sendButton.Enabled = true;
                             button1.Enabled = true;
@@ -260,7 +260,7 @@ namespace EncryShare
         {
             try
             {
-                SendMessage("SERVER DISCONNECTING");
+                SendMessage("\nСоединение принудительно разорвано!\n");
                 
                 if (receiveThread != null)
                 {
@@ -340,7 +340,7 @@ namespace EncryShare
 
                             byte[] encryBytes = CryptoTools.CryptoTools.EncryptFileToByte(getFileDialog.FileName, CryptoTools.CryptoTools.myAes.Key, CryptoTools.CryptoTools.myAes.IV, data.Length);
                             fileNStream.Write(encryBytes, 0, encryBytes.Length);
-                            SendMessage(getFileDialog.FileName.Split('\\')[getFileDialog.FileName.Split('\\').Length - 1]);
+                            SendMessage("Вам передан файл " + getFileDialog.FileName.Split('\\')[getFileDialog.FileName.Split('\\').Length - 1]);
 
                         }
                         catch (Exception ex)

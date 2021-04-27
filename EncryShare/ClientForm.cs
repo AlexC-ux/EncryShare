@@ -123,8 +123,8 @@ namespace EncryShare
                         FileStream fs = File.Create(fileName, decryptedData.Length);
                         fs.Write(decryptedData, 0, decryptedData.Length);
                         fs.Close();
-                        chatTextBox.Text += $"!File received and saved to downloads as\n{fileName}\n";
-                        SendMessage("\nFile successfully sent.\n");
+                        chatTextBox.Text += $"Принятый файл сохранён в загрузках как\n{fileName}\n";
+                        SendMessage("\nФайл успешно доставлен.\n");
                     }
                 }
                 catch (Exception ex)
@@ -232,7 +232,7 @@ namespace EncryShare
             
             try
             {
-                SendMessage("CLIENT DISCONNECTING");
+                SendMessage("\nСоединение принудительно разорвано!\n");
                 
                 receiveFileListenerThread.Abort();
                 tcpFileClient.Client.Shutdown(SocketShutdown.Both);
@@ -312,7 +312,7 @@ namespace EncryShare
 
                             byte[] encryBytes = CryptoTools.CryptoTools.EncryptFileToByte(getFileDialog.FileName, CryptoTools.CryptoTools.myAes.Key, CryptoTools.CryptoTools.myAes.IV, data.Length);
                             fileNStream.Write(encryBytes, 0, encryBytes.Length);
-                            SendMessage(getFileDialog.FileName.Split('\\')[getFileDialog.FileName.Split('\\').Length - 1]);
+                            SendMessage("Вам передан файл "+getFileDialog.FileName.Split('\\')[getFileDialog.FileName.Split('\\').Length - 1]);
 
                         }
                         catch (Exception ex)
