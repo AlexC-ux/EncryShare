@@ -234,7 +234,6 @@ namespace EncryShare
                         chatTextBox.AppendText("\nany: " + message);
                     }
 
-
                 }
                 catch (Exception ex)
                 {
