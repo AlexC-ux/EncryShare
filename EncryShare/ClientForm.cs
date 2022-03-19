@@ -34,6 +34,7 @@ namespace EncryShare
         public ClientForm()
         {
             InitializeComponent();
+            toolTip1.SetToolTip(label2, "Click on your ip to copy it to the clipboard!");
         }
 
         private void Connect()
@@ -269,11 +270,15 @@ namespace EncryShare
 
         private void sendButton_Click(object sender, EventArgs e)
         {
-            SendMessage(messageTextBox.Text);
-            chatTextBox.AppendText($"\nme: {messageTextBox.Text}\n");
-            
-            messageTextBox.Text = "";
+            string processedMessange = messageTextBox.Text;
+            if (processedMessange[-1] == '\n')
+            {
+                processedMessange = processedMessange.Remove(-1);
+            }
+            SendMessage(processedMessange);
+            chatTextBox.AppendText($"\nme: {processedMessange}\n");
 
+            messageTextBox.Text = "";
         }
 
         private void messageTextBox_TextChanged(object sender, EventArgs e)
@@ -345,11 +350,22 @@ namespace EncryShare
                 sendButton.PerformClick();
                 messageTextBox.Focus();
             }
+            if (e.KeyCode == Keys.Down && messageTextBox.Enabled)
+            {
+                messageTextBox.Text = messageTextBox.Text + '\n';
+            }
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
             
+        }
+
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+            Clipboard.SetText(label2.Text.Replace("\n", ""));
+            MessageBox.Show("IP copied to the clipboard!");
         }
     }
 }
