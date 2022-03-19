@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -10,7 +9,7 @@ namespace CryptoTools
         public UnicodeEncoding ByteConverter = new UnicodeEncoding();
         public static RSACryptoServiceProvider RSAcp = new RSACryptoServiceProvider(2048);
         public static RSAParameters RSAParam = RSAcp.ExportParameters(false);
-        
+
         public static Aes myAes = Aes.Create();
 
         public static byte[] GetRSAModulus()
@@ -23,22 +22,22 @@ namespace CryptoTools
         }
         public static void SetRSAOpenKeys(byte[] Modulus, byte[] Exponent)
         {
-            
+
             RSAParam.Modulus = Modulus;
             RSAParam.Exponent = Exponent;
-            RSAcp.ImportParameters(RSAParam); 
+            RSAcp.ImportParameters(RSAParam);
         }
-        public static void SetAESKeys(byte [] EncryptedKey, byte [] EncryptedIV)
+        public static void SetAESKeys(byte[] EncryptedKey, byte[] EncryptedIV)
         {
             myAes.Key = RSAcp.Decrypt(EncryptedKey, true);
             myAes.IV = RSAcp.Decrypt(EncryptedIV, true);
-            
+
         }
         public static byte[] EncryptRSA(byte[] DataToEncrypt)
         {
             return RSAcp.Encrypt(DataToEncrypt, true);
-        } 
-        public static byte [] DecryptRSA(byte [] DataToDecrypt)
+        }
+        public static byte[] DecryptRSA(byte[] DataToDecrypt)
         {
             return RSAcp.Decrypt(DataToDecrypt, true);
         }
@@ -78,7 +77,7 @@ namespace CryptoTools
             {
                 aesAlg.Key = AESKey;
                 aesAlg.IV = AESIV;
-                byte[] encrypted=File.ReadAllBytes(FileDirectory);
+                byte[] encrypted = File.ReadAllBytes(FileDirectory);
 
                 using (ICryptoTransform encryptor = aesAlg.CreateEncryptor(aesAlg.Key, aesAlg.IV))
                 {

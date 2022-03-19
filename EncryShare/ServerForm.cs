@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Media;
 using System.IO;
+using System.Media;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
-using System.Windows.Forms;
 using System.Threading;
-using System.Security.Cryptography;
-using CryptoTools;
+using System.Windows.Forms;
 
 namespace EncryShare
 {
@@ -41,12 +38,12 @@ namespace EncryShare
 
         private void ServerForm_Load(object sender, EventArgs e)
         {
-            
+
             label2.Text = new WebClient().DownloadString("http://icanhazip.com/");
             sendButton.Enabled = false;
             messageTextBox.Enabled = false;
             button1.Enabled = false;
-            
+
         }
 
         private void StartListening()
@@ -56,7 +53,7 @@ namespace EncryShare
             tcpListener = new TcpListener(IPAddress.Any, 60755);
             tcpListener.Start(10);
             chatTextBox.Text = $"Начато ожидание {IPAddress.Parse(ipTextBox.Text)}\n";
-            
+
             void MakeConnection()
             {
                 tcpListener.Stop();
@@ -73,8 +70,8 @@ namespace EncryShare
                 nStream.Write(CryptoTools.CryptoTools.GetRSAModulus(), 0, CryptoTools.CryptoTools.GetRSAModulus().Length);
 
 
-                
-                
+
+
                 receiveFileListenerThread = new Thread(WaitFileConnection);
                 receiveFileListenerThread.Start();
             }
@@ -89,7 +86,7 @@ namespace EncryShare
                     tcpClient = tcpListener.AcceptTcpClient();
                     if (tcpClient.Client.RemoteEndPoint.ToString().Split(':')[0] != ipTextBox.Text)
                     {
-                        if (MessageBox.Show("К вам желал подключиться незнакомый клиент\n" + tcpClient.Client.RemoteEndPoint.ToString()+"\nПрервать его подключение?","Посторонний клиент!", MessageBoxButtons.YesNo) == DialogResult.No)
+                        if (MessageBox.Show("К вам желал подключиться незнакомый клиент\n" + tcpClient.Client.RemoteEndPoint.ToString() + "\nПрервать его подключение?", "Посторонний клиент!", MessageBoxButtons.YesNo) == DialogResult.No)
                         {
                             MakeConnection();
                         }
@@ -125,8 +122,8 @@ namespace EncryShare
                         receiveFilesThread = new Thread(ReceiveFileBytes);
                         receiveFilesThread.Start();
                         resFile = true;
-                        
-                        
+
+
                     }
                 }
             }
@@ -134,18 +131,18 @@ namespace EncryShare
         }
         private void ReceiveFileBytes()
         {
-            
+
             while (tcpFileClient.Connected)
             {
-                
+
                 try
                 {
-                    
+
                     byte[] data = new byte[268435456]; // буфер для получаемых данных
                     int bytes = 0;
                     do
                     {
-                        
+
                         try
                         {
                             bytes = fileNStream.Read(data, 0, data.Length);
@@ -153,7 +150,7 @@ namespace EncryShare
                         catch { }
                     }
                     while (fileNStream.DataAvailable);
-                    if (bytes>0)
+                    if (bytes > 0)
                     {
                         string fileName = Environment.GetEnvironmentVariable("USERPROFILE") + @"\" + "Downloads" + @"\" + DateTime.Now.Year + DateTime.Now.DayOfYear + DateTime.Now.DayOfWeek + DateTime.Now.Hour + DateTime.Now.Minute + DateTime.Now.Second + ".encryshare";
                         byte[] decryptedData = CryptoTools.CryptoTools.DecryptToByte(data, CryptoTools.CryptoTools.myAes.Key, CryptoTools.CryptoTools.myAes.IV, bytes);
@@ -205,7 +202,7 @@ namespace EncryShare
                             else
                             {
                                 bytes = nStream.Read(data, 0, data.Length);
-                                
+
                             }
                             //builder.Append(Encoding.Unicode.GetString(data, 0, bytes));
                         }
@@ -213,16 +210,16 @@ namespace EncryShare
                     }
                     while (nStream.DataAvailable);
 
-                    
 
-                    if (aesEncryptedIV==null)
+
+                    if (aesEncryptedIV == null)
                     {
-                        if (aesEncryptedKey==null) { aesEncryptedKey = data; }
+                        if (aesEncryptedKey == null) { aesEncryptedKey = data; }
                         else
                         {
                             aesEncryptedIV = data;
-                            CryptoTools.CryptoTools.SetAESKeys(aesEncryptedKey,aesEncryptedIV);
-                            
+                            CryptoTools.CryptoTools.SetAESKeys(aesEncryptedKey, aesEncryptedIV);
+
                             chatTextBox.AppendText("\nОбмен ключами шифрования завершен!\n");
                             SendMessage("\nОбмен ключами шифрования завершен!\n");
                             messageTextBox.Enabled = true;
@@ -230,15 +227,15 @@ namespace EncryShare
                             button1.Enabled = true;
                         }
                     }
-                    else 
+                    else
                     {
 
-                        string message = Encoding.Default.GetString(CryptoTools.CryptoTools.DecryptToByte(data, CryptoTools.CryptoTools.myAes.Key, CryptoTools.CryptoTools.myAes.IV,bytes));
-                        chatTextBox.AppendText("\nany: " + message + "\n"); 
+                        string message = Encoding.Default.GetString(CryptoTools.CryptoTools.DecryptToByte(data, CryptoTools.CryptoTools.myAes.Key, CryptoTools.CryptoTools.myAes.IV, bytes));
+                        chatTextBox.AppendText("\nany: " + message);
                     }
 
-                    
-                    
+
+
 
                 }
                 catch (Exception ex)
@@ -262,7 +259,7 @@ namespace EncryShare
             try
             {
                 SendMessage("\nСоединение принудительно разорвано!\n");
-                
+
                 if (receiveThread != null)
                 {
                     receiveThread.Abort();
@@ -294,14 +291,14 @@ namespace EncryShare
                 byte[] msg = CryptoTools.CryptoTools.EncryptString(message, CryptoTools.CryptoTools.myAes.Key, CryptoTools.CryptoTools.myAes.IV);
                 nStream.Write(msg, 0, msg.Length);
             }
-            else { MessageBox.Show(text:"Сессия завершена!",caption:"Ошибка отправки текстового сообщения",buttons:MessageBoxButtons.OK); }
-            
+            else { MessageBox.Show(text: "Сессия завершена!", caption: "Ошибка отправки текстового сообщения", buttons: MessageBoxButtons.OK); }
+
         }
         private void sendButton_Click(object sender, EventArgs e)
         {
             SendMessage(messageTextBox.Text);
-            chatTextBox.AppendText($"\nme: {processedMessange}");
-            
+            chatTextBox.AppendText($"\nme: {messageTextBox.Text}");
+
             messageTextBox.Text = "";
         }
 
@@ -352,8 +349,8 @@ namespace EncryShare
                 }
             }
             catch { MessageBox.Show(text: "Сессия завершена!", caption: "Ошибка отправки файла", buttons: MessageBoxButtons.OK); }
-            
-            
+
+
         }
 
         private void chatTextBox_TextChanged(object sender, EventArgs e)
@@ -374,7 +371,7 @@ namespace EncryShare
             {
                 messageTextBox.Text = messageTextBox.Text + '\n';
             }
-            
+
         }
 
         private void messageTextBox_KeyUp(object sender, KeyEventArgs e)
@@ -388,7 +385,7 @@ namespace EncryShare
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-            
+
         }
 
         private void label2_Click(object sender, EventArgs e)

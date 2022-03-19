@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Media;
 using System.IO;
+using System.Media;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
-using System.Windows.Forms;
 using System.Threading;
+using System.Windows.Forms;
 
 namespace EncryShare
 {
@@ -20,7 +17,7 @@ namespace EncryShare
         byte[] aesEncryptedIV;
 
         bool resFile;
-        SoundPlayer notifySound = new SoundPlayer(Environment.GetFolderPath(Environment.SpecialFolder.Windows)+@"\Media\Speech On.wav");
+        SoundPlayer notifySound = new SoundPlayer(Environment.GetFolderPath(Environment.SpecialFolder.Windows) + @"\Media\Speech On.wav");
         Thread receiveFilesThread;
         Thread receiveFileListenerThread;
         SaveFileDialog saveFileDialog = new SaveFileDialog();
@@ -40,21 +37,21 @@ namespace EncryShare
         private void Connect()
         {
 
-            
+
             try
             {
-                
+
                 tcpClient = new TcpClient();
-                
+
                 chatTextBox.Text += $"Начато подключение к {IPAddress.Parse(ipTextBox.Text)}\n";
-                
+
                 //tcpClient.SendTimeout = 7000;
                 //tcpClient.ReceiveTimeout = 7000;
 
                 //tcpClient.Connect(ipTextBox.Text.ToString(), 60755);
                 //tcpClient.ConnectAsync(ipTextBox.Text, 60755).Wait(30000);
                 tcpClient.Connect(IPAddress.Parse(ipTextBox.Text), 60755);
-                
+
                 //tcpClient.Connect(Dns.GetHostEntry(ipTextBox.Text.ToString()).AddressList[0], 60755);
                 while (!tcpClient.Connected) { continue; }
                 nStream = tcpClient.GetStream();
@@ -62,16 +59,16 @@ namespace EncryShare
                 receiveThread.Start();
                 chatTextBox.Text = ("Соединение установлено.\n");
 
-                
+
                 receiveFileListenerThread = new Thread(WaitFileConnection);
                 receiveFileListenerThread.Start();
-                
+
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
             }
-            
+
         }
 
         private void WaitFileConnection()
@@ -90,8 +87,8 @@ namespace EncryShare
                         receiveFilesThread = new Thread(ReceiveFileBytes);
                         receiveFilesThread.Start();
                         resFile = true;
-                        
-                        
+
+
                     }
                 }
             }
@@ -99,25 +96,25 @@ namespace EncryShare
 
         private void ReceiveFileBytes()
         {
-            
+
             while (tcpFileClient.Connected)
             {
-                
+
                 try
                 {
                     byte[] data = new byte[268435456]; // буфер для получаемых данных
                     int bytes = 0;
                     do
                     {
-                        
+
                         try
                         {
                             bytes = fileNStream.Read(data, 0, data.Length);
                         }
-                        catch (Exception ex){ MessageBox.Show(ex.ToString()); }
+                        catch (Exception ex) { MessageBox.Show(ex.ToString()); }
                     }
                     while (fileNStream.DataAvailable);
-                    if (bytes>0)
+                    if (bytes > 0)
                     {
                         string fileName = Environment.GetEnvironmentVariable("USERPROFILE") + @"\" + "Downloads" + @"\" + DateTime.Now.Year + DateTime.Now.DayOfYear + DateTime.Now.DayOfWeek + DateTime.Now.Hour + DateTime.Now.Minute + DateTime.Now.Second + ".encryshare";
                         byte[] decryptedData = CryptoTools.CryptoTools.DecryptToByte(data, CryptoTools.CryptoTools.myAes.Key, CryptoTools.CryptoTools.myAes.IV, bytes);
@@ -136,7 +133,7 @@ namespace EncryShare
         }
         private void ReceiveMessage()
         {
-            
+
             while (tcpClient.Connected)
             {
                 try
@@ -148,7 +145,7 @@ namespace EncryShare
                     {
                         try
                         {
-                            if (rsaModulusReceived==null)
+                            if (rsaModulusReceived == null)
                             {
                                 if (rsaExponentReceived == null)
                                 {
@@ -158,13 +155,14 @@ namespace EncryShare
                                 else
                                 {
                                     data = new byte[256];
-                                    bytes = nStream.Read(data, 0, 256); }
+                                    bytes = nStream.Read(data, 0, 256);
+                                }
                             }
                             else
                             {
                                 bytes = nStream.Read(data, 0, data.Length);
                             }
-                            
+
                             //builder.Append(Encoding.Unicode.GetString(data, 0, bytes));
                         }
                         catch { }
@@ -173,15 +171,17 @@ namespace EncryShare
 
                     //string message = builder.ToString();
 
-                    if (rsaModulusReceived==null)
+                    if (rsaModulusReceived == null)
                     {
-                        if (rsaExponentReceived==null)
+                        if (rsaExponentReceived == null)
                         {
                             rsaExponentReceived = data;
                         }
-                        else { rsaModulusReceived = data;
-                            
-                            CryptoTools.CryptoTools.SetRSAOpenKeys(rsaModulusReceived,rsaExponentReceived);
+                        else
+                        {
+                            rsaModulusReceived = data;
+
+                            CryptoTools.CryptoTools.SetRSAOpenKeys(rsaModulusReceived, rsaExponentReceived);
                             aesEncryptedKey = CryptoTools.CryptoTools.EncryptAESKey();
                             aesEncryptedIV = CryptoTools.CryptoTools.EncryptAESIV();
 
@@ -195,15 +195,15 @@ namespace EncryShare
                         }
 
                     }
-                    else 
+                    else
                     {
-                        string message = Encoding.Default.GetString(CryptoTools.CryptoTools.DecryptToByte(data, CryptoTools.CryptoTools.myAes.Key, CryptoTools.CryptoTools.myAes.IV,bytes));
-                        chatTextBox.AppendText($"\nany: " + message ); 
+                        string message = Encoding.Default.GetString(CryptoTools.CryptoTools.DecryptToByte(data, CryptoTools.CryptoTools.myAes.Key, CryptoTools.CryptoTools.myAes.IV, bytes));
+                        chatTextBox.AppendText($"\nany: " + message);
                     }
 
 
-                    
-                    
+
+
 
                 }
                 catch (Exception ex)
@@ -230,11 +230,11 @@ namespace EncryShare
 
         private void ClientForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            
+
             try
             {
                 SendMessage("\nСоединение принудительно разорвано!\n");
-                
+
                 receiveFileListenerThread.Abort();
                 tcpFileClient.Client.Shutdown(SocketShutdown.Both);
                 tcpFileClient.Close();
@@ -313,7 +313,7 @@ namespace EncryShare
 
                             byte[] encryBytes = CryptoTools.CryptoTools.EncryptFileToByte(getFileDialog.FileName, CryptoTools.CryptoTools.myAes.Key, CryptoTools.CryptoTools.myAes.IV, data.Length);
                             fileNStream.Write(encryBytes, 0, encryBytes.Length);
-                            SendMessage("Вам передан файл "+getFileDialog.FileName.Split('\\')[getFileDialog.FileName.Split('\\').Length - 1]);
+                            SendMessage("Вам передан файл " + getFileDialog.FileName.Split('\\')[getFileDialog.FileName.Split('\\').Length - 1]);
 
                         }
                         catch (Exception ex)
@@ -336,7 +336,7 @@ namespace EncryShare
 
         private void button1_KeyUp(object sender, KeyEventArgs e)
         {
-            
+
         }
 
         private void messageTextBox_KeyUp(object sender, KeyEventArgs e)
@@ -355,7 +355,7 @@ namespace EncryShare
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-            
+
         }
 
 
