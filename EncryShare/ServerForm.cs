@@ -36,6 +36,7 @@ namespace EncryShare
         public ServerForm()
         {
             InitializeComponent();
+            toolTip1.SetToolTip(label2, "Click on your ip to copy it to the clipboard!");
         }
 
         private void ServerForm_Load(object sender, EventArgs e)
@@ -384,6 +385,12 @@ namespace EncryShare
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
             
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+            Clipboard.SetText(label2.Text.ToLower().ToString());
+            MessageBox.Show("IP copied to the clipboard!");
         }
     }
 }
