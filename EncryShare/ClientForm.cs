@@ -198,7 +198,7 @@ namespace EncryShare
                     else 
                     {
                         string message = Encoding.Default.GetString(CryptoTools.CryptoTools.DecryptToByte(data, CryptoTools.CryptoTools.myAes.Key, CryptoTools.CryptoTools.myAes.IV,bytes));
-                        chatTextBox.AppendText($"\nany: " + message + "\n"); 
+                        chatTextBox.AppendText($"\nany: " + message ); 
                     }
 
 
