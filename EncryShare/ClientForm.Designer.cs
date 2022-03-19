@@ -38,8 +38,8 @@ namespace EncryShare
             this.sendButton = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.label2 = new System.Windows.Forms.Label();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.SuspendLayout();
             // 
             // connectButton
@@ -64,10 +64,8 @@ namespace EncryShare
             // 
             // chatTextBox
             // 
-            this.chatTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chatTextBox.Location = new System.Drawing.Point(14, 88);
             this.chatTextBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.chatTextBox.MaximumSize = new System.Drawing.Size(3950, 5960);
             this.chatTextBox.Name = "chatTextBox";
             this.chatTextBox.ReadOnly = true;
             this.chatTextBox.Size = new System.Drawing.Size(395, 596);
@@ -132,10 +130,6 @@ namespace EncryShare
             this.checkBox1.UseVisualStyleBackColor = true;
             this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
-            // toolTip1
-            // 
-            this.toolTip1.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
-            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -146,11 +140,14 @@ namespace EncryShare
             this.label2.Text = "label2";
             this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
+            // toolTip1
+            // 
+            this.toolTip1.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            // 
             // ClientForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(422, 795);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.checkBox1);
@@ -161,10 +158,7 @@ namespace EncryShare
             this.Controls.Add(this.ipTextBox);
             this.Controls.Add(this.chatTextBox);
             this.Controls.Add(this.label1);
-            this.Location = new System.Drawing.Point(440, 842);
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.MaximumSize = new System.Drawing.Size(440, 842);
-            this.MinimumSize = new System.Drawing.Size(440, 842);
             this.Name = "ClientForm";
             this.Text = "ClientForm";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ClientForm_FormClosed);
@@ -184,7 +178,7 @@ namespace EncryShare
         private System.Windows.Forms.Button sendButton;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }

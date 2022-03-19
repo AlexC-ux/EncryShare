@@ -299,13 +299,8 @@ namespace EncryShare
         }
         private void sendButton_Click(object sender, EventArgs e)
         {
-            string processedMessange = messageTextBox.Text;
-            if (processedMessange[-1] == '\n')
-            {
-                processedMessange = processedMessange.Remove(-1);
-            }
-            SendMessage(processedMessange);
-            chatTextBox.AppendText($"\nme: {processedMessange}\n");
+            SendMessage(messageTextBox.Text);
+            chatTextBox.AppendText($"\nme: {processedMessange}");
             
             messageTextBox.Text = "";
         }
