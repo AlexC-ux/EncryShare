@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\eunv2\\source\\repos\\EncryShare\\EncryShare\\EncryShare.csproj": {}
+    "C:\\Users\\eunv2\\Source\\Repos\\EncryShare\\EncryShare\\EncryShare.csproj": {}
   },
   "projects": {
-    "C:\\Users\\eunv2\\source\\repos\\EncryShare\\EncryShare\\EncryShare.csproj": {
+    "C:\\Users\\eunv2\\Source\\Repos\\EncryShare\\EncryShare\\EncryShare.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\eunv2\\source\\repos\\EncryShare\\EncryShare\\EncryShare.csproj",
+        "projectUniqueName": "C:\\Users\\eunv2\\Source\\Repos\\EncryShare\\EncryShare\\EncryShare.csproj",
         "projectName": "EncryShare",
-        "projectPath": "C:\\Users\\eunv2\\source\\repos\\EncryShare\\EncryShare\\EncryShare.csproj",
+        "projectPath": "C:\\Users\\eunv2\\Source\\Repos\\EncryShare\\EncryShare\\EncryShare.csproj",
         "packagesPath": "C:\\Users\\eunv2\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\eunv2\\source\\repos\\EncryShare\\EncryShare\\obj\\",
+        "outputPath": "C:\\Users\\eunv2\\Source\\Repos\\EncryShare\\EncryShare\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
