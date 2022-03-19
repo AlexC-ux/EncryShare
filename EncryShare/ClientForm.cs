@@ -356,7 +356,7 @@ namespace EncryShare
 
         private void label2_Click(object sender, EventArgs e)
         {
-            Clipboard.SetText(label2.Text.ToLower().ToString());
+            Clipboard.SetText(label2.Text.ToLower().ToString().Replace(Environment.NewLine, ""));
             MessageBox.Show("IP copied to the clipboard!");
         }
     }
